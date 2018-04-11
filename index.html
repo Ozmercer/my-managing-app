@@ -8,18 +8,19 @@
 </head>
 <body>
     <div id="app">
-        <user-msg></user-msg>
         My Managing App
+        {{msg}}
         <nav>
-            <router-link></router-link>
-            <router-link></router-link>
-            <router-link></router-link>
+            <router-link exact to='/'>Home</router-link>  |
+            <router-link to='/mail'>Mail</router-link> |
+            <router-link to='/map'>Map</router-link> |
+            <router-link to='/note'>Note</router-link> |
         </nav>
         
         <router-view></router-view>
     </div>
-    <script src="js/lib/vue.js"></script>
-    <script src="js/lib/vue-router.js"></script>
-    <script type="model" src="js/main.js"></script>
+    <script src="lib/vue.js"></script>
+    <script src="lib/vue-router.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
