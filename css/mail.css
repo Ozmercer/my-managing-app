@@ -1,3 +1,14 @@
 .mail.unread > button {
     display: none
 }
+
+.mail {
+    background-color: aqua;
+}
+
+.mail-compose {
+    background-color: antiquewhite
+}
+.mail-details {
+    background-color: beige
+}

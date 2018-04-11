@@ -15,7 +15,7 @@ function makeid(length = 5) {
     return text;
   }
 
-function lorem(minWord = 1, maxWord = 3 ,minLength = 3, maxLength = 5) {
+function lorem(minWord = 1, maxWord = 3 ,minLength = 3, maxLength = 8) {
     var words = getRandomInt(minWord,maxWord);
     var lorem = '';
     for (let i = 0; i < words; i++) {
@@ -32,10 +32,20 @@ function shuffle(a) {
     return a;
 }
 
+function randomDate(start, end) {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+
+function timeAgo(date) {
+    return moment(date, "YYYYMMDD").fromNow()
+}
+
 export default {
     getRandomInt,
     getRandomString : makeid,
     lorem,
-    shuffle
+    shuffle,
+    randomDate,
+    timeAgo
 }
 
