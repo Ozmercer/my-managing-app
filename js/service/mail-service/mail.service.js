@@ -16,10 +16,14 @@ function generateMails() {
 function generateNewMail() {
     return {
         id: nextId++,
-        content: utilService.lorem(5,10),
+        content: utilService.lorem(10,30),
         date: new Date() ,
         unread: true
     }
+}
+
+function contentPreview(txt) {
+    return txt.substring(0,50)
 }
 
 export default {
