@@ -37,6 +37,7 @@ function randomDate(start, end) {
 }
 
 function timeAgo(date) {
+    date = new Date(date)
     return moment(date, "YYYYMMDD").fromNow()
 }
 
