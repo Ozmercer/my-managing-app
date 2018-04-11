@@ -9,8 +9,4 @@ Vue.filter('substr50', function (value) {
 new Vue({
     el: '#app',
     router,
-<<<<<<< HEAD
-    
-=======
->>>>>>> ebb8341a707e419b3429e716d75a491ee9449be9
 })
