@@ -1,0 +1,10 @@
+#map{
+    position: absolute !important;
+    z-index: -1;
+    top:0
+}
+.places-list{
+    background: #fff;
+}
+
+
