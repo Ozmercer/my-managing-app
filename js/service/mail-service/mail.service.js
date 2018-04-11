@@ -22,13 +22,19 @@ function generateMails() {
 function generateNewMail(content, date) {
     return {
         id: nextId++,
-        content: (content)? content : utilService.lorem(20,60),
-        date: (date)? date : utilService.randomDate(new Date(2017, 5, 1), new Date()) ,
+        content: content || utilService.lorem(20,60),
+        date: date || utilService.randomDate(new Date(2017, 5, 1), new Date()).valueOf(),
         unread: true
     }
 }
 
+function addMail(mail) {
+    mailsDB.unshift(mail);
+    storageService.store(MAIL_KEY, mailsDB)
+}
+
 export default {
     generateMails,
-    generateNewMail
+    generateNewMail,
+    addMail
 }

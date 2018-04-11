@@ -6,7 +6,7 @@ export default {
         <h1>Compose mail</h1>    
         <form >
             <label>
-                <input type="text" placeholder="Type mail..." v-model="content">
+                <input type="text" placeholder="Type mail..." v-model="newMail.content">
             </label>
             <button @click.prevent="sendMail()">Send</button>
         </form>
@@ -14,17 +14,23 @@ export default {
     `,
     data() {
         return {
-            content: null,
-            date: null,
-            newMail: null
+            newMail: {
+                content: null,
+                date: null,
+            }
         }
     },
     methods: {
         sendMail() {
-            mailService.generateNewMail(this.content, this.date)
-            console.log('newMail:', this.newMail);
+            console.log('content:', this.newMail.content)
+            this.newMail = mailService.generateNewMail(this.newMail.content, Date.now());
+            mailService.addMail(this.newMail);
             
             this.$emit('new-mail', this.newMail)
+            this.newMail = {
+                content: null,
+                date: null,
+            }
         }
     }
 }
