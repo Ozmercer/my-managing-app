@@ -4,9 +4,11 @@ export default {
     <section class="mail-details">
         <button @click="close">X</button>
         <h1>mail details</h1>
+        <p>Subject: {{mail.subject}} </p>
         <p>Mail content:</p>
         <p>{{mail.content}}</p>
         <p>Sent at {{sentDate}}</p>
+        <button @click="reply">Reply</button>
     </section>
     `,
     computed: {
@@ -17,6 +19,9 @@ export default {
     methods: {
         close() {
             this.$emit('close-details')
+        },
+        reply() {
+            this.$emit('reply', this.mail.subject)
         }
     }
 }

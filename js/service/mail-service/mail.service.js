@@ -16,15 +16,16 @@ function generateMails() {
                 mails.push(generateNewMail())
             }
             mailsDB = mails
+            storageService.store(MAIL_KEY, mailsDB).then(mails => mailsDB)
         }    
-        storageService.store(MAIL_KEY, mailsDB).then(mails => mailsDB)
         return Promise.resolve(mailsDB)
     })
 }
 
-function generateNewMail(content, date) {
+function generateNewMail(subject, content, date) {
     return {
         id: nextId++,
+        subject: subject || 'SUBJECT: ' + utilService.lorem(1,3).toUpperCase(),
         content: content || utilService.lorem(20,60),
         date: date || utilService.randomDate(new Date(2017, 5, 1), new Date()).valueOf(),
         unread: true
@@ -33,15 +34,37 @@ function generateNewMail(content, date) {
 
 function addMail(mail) {
     mailsDB.unshift(mail);
+    updateMail(mail)
+}
+
+function updateMail(mail) {
     storageService.store(MAIL_KEY, mailsDB)
 }
 
-function editMail(mail) {
-
+function sortBySubject() {
+    mailsDB.sort(compareSubject);
+    return mailsDB
+}
+function compareSubject(a,b) {
+    if (a.subject > b.subject) return 1;
+    if (a.subject < b.subject) return -1;
+    else return 0;
+}
+function sortByDate() {
+    mailsDB.sort(compareDate);
+    console.log('mailsDB:',mailsDB);
+    
+    return mailsDB
+}
+function compareDate(a,b) {
+    return b.date-a.date;
 }
 
 export default {
     generateMails,
     generateNewMail,
-    addMail
+    addMail,
+    updateMail,
+    sortBySubject,
+    sortByDate
 }
