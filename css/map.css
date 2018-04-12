@@ -5,6 +5,11 @@
 }
 .places-list{
     background: #fff;
+    width: 200px;
+    margin: 0 20px
+}
+.place-preview{
+    background: #fff;
 }
 
 
