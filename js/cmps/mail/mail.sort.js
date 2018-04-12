@@ -1,16 +1,16 @@
 export default {
     template: `
     <section class="sort">
-        <h1>Sort E-Mails</h1>
-        <label>
+        <label class="label">
         Sort by: 
-        <select v-model="sortType" @change="sortBy()">
-            <option value=""></option>
-            <option value="subject">subject</option>
-            <option value="date">Date</option>
-        </select>
+        <div class="select is-rounded">
+            <select v-model="sortType" @change="sortBy()">
+                <option value="Sort by"></option>
+                <option value="subject">subject</option>
+                <option value="date">Date</option>
+            </select>
+        </div>
         </label>    
-        {{sortType}}
     </section>
     `,
     data() {

@@ -6,23 +6,30 @@ import mailSort from '../../cmps/mail/mail.sort.js'
 
 export default {
     template: `
-    <section class="mail">
-        <h1>Welcome To My Mail</h1>
-        <h2>You have {{totUnread}} unread messeges</h2>
-        <mail-filter :mails="mails" @filter="setFilter"></mail-filter>
-        <mail-sort @sorted="sortBy"></mail-sort>
-        <ul>
-            <li v-for="mail in mailsToShow" @click="openMail(mail)" class="mail" :class="{unread: mail.unread}">
-                {{mail.subject}} | {{mail.content | substr20}} | {{(mail.unread)? 'unread mail |':''}}
-                {{mail.date | timeAgo}} 
-                <button @click.stop="markAsUnread(mail)">Mark as unread</button>
-            </li>
-        </ul>
-        <button @click="composeMail()">Compose new mail</button>
-        <!-- <view-router></view-router> -->
-        <mail-compose v-if="compose" :subject="newSubject" ></mail-compose>
-        <mail-details :mail="currMail" v-if="currMail"
-            @close-details="closeDetails()" @reply="reply"></mail-details>
+    <section class="mail flex no-wrap">
+        <section class="details">
+            <mail-compose v-if="compose" :subject="newSubject" ></mail-compose>
+            <mail-details :mail="currMail" v-if="currMail"
+                @close-details="closeDetails()" @reply="reply"></mail-details>
+        </section>
+        <section class="navbar flex column">
+            <div class="nav-head">
+                <h1>Welcome To My Mail</h1>
+                <h2>You have {{totUnread}} unread messeges</h2>
+                <mail-filter :mails="mails" @filter="setFilter"></mail-filter>
+                <mail-sort @sorted="sortBy"></mail-sort>
+                <button @click="composeMail()">Compose new mail</button>
+            </div>
+            <ul >
+                <li v-for="mail in mailsToShow" @click="openMail(mail)" class="mail flex space-around" :class="{unread: mail.unread}">
+                    <span class="subject">{{mail.subject}}</span>
+                    <span class="content">{{mail.content | substr20}}</span>
+                    <span class="date">{{mail.date | timeAgo}}</span>
+                    <button @click.stop="markAsUnread(mail)">Mark as unread</button>
+                    <a class="delete" @click.stop="deleteMail(mail)"></a>
+                </li>
+            </ul>
+        </section>
     </section>
     `,
     data() {
@@ -85,6 +92,9 @@ export default {
             this.compose = true;
             this.closeDetails()
             this.newSubject = ''
+        },
+        deleteMail(mail) {
+            mailService.deleteMail(mail)
         },
         setFilter(filters) {
             this.filter = filters

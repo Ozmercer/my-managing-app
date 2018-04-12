@@ -4,19 +4,20 @@ export default {
     <section class="mail-filter">
         <h1>filter</h1>
         <form>
-            <label>
+            <label class="label">
                 Filter e-mails by name:
-                <input type="search" v-model="filter.byName" @input.prevent="setFilter">
+                <input type="search" v-model="filter.byName" @input.prevent="setFilter" class="input is-rounded">
             </label>
-            <label>
+            <label class="label">
                 filter by:
-                <select v-model="filter.byRead" @change="setFilter">
-                    <option value="all">All</option>
-                    <option value="unread">Unread</option>
-                    <option value="read">Read</option>
-                </select>
+                <div class="select is-rounded">
+                    <select class="select is-rounded" v-model="filter.byRead" @change="setFilter">
+                        <option value="all">All</option>
+                        <option value="unread">Unread</option>
+                        <option value="read">Read</option>
+                    </select>
+                </div>
             </label>
-            <button>Filter</button>
         </form>
     </section>
     `,

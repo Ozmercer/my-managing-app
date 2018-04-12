@@ -24,8 +24,8 @@ function generateMails() {
 
 function generateNewMail(subject, content, date) {
     return {
-        id: nextId++,
-        subject: subject || 'SUBJECT: ' + utilService.lorem(1,3).toUpperCase(),
+        id: Date.now(),
+        subject: subject || utilService.lorem(1,3).toUpperCase(),
         content: content || utilService.lorem(20,60),
         date: date || utilService.randomDate(new Date(2017, 5, 1), new Date()).valueOf(),
         unread: true
@@ -35,6 +35,13 @@ function generateNewMail(subject, content, date) {
 function addMail(mail) {
     mailsDB.unshift(mail);
     updateMail(mail)
+}
+function deleteMail(mailToDel) {
+    var idxToDel = mailsDB.findIndex((mail)=>{
+        return mail === mailToDel
+    });
+    mailsDB.splice(idxToDel,1)
+    updateMail(mailsDB)
 }
 
 function updateMail(mail) {
@@ -66,5 +73,6 @@ export default {
     addMail,
     updateMail,
     sortBySubject,
-    sortByDate
+    sortByDate,
+    deleteMail
 }

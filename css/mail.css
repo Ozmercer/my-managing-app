@@ -15,5 +15,43 @@
 
 .mail li {
     border: 1px solid black;
-    margin: 10px
+    border-bottom: none;
+    padding: 10px;
+    max-width: 800px;
+    text-justify: inter-word
+}
+.mail ul:last-child {
+    border-bottom: 1px solid black
+}
+
+.container1 {
+    max-width: 1060px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.mail input {
+    width: 40%;
+}
+select {
+    margin: 0
+}
+
+.mail .mail-compose {
+    text-align: left
+}
+
+.mail .navbar {
+    left: 0;
+    width: 40%;
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+.mail .details {
+    width: 60%
+}
+
+.mail li .unread {
+    font-weight: 700;
 }

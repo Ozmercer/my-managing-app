@@ -7,8 +7,8 @@ export default {
         <h1>Compose mail</h1>
         <form >
             <label>
-                <input type="text" placeholder="Subject..." v-model="newMail.subject">
-                <textarea cols="80" rows="5" placeholder="Type mail..." v-model="newMail.content">
+                <input class="input" type="text" placeholder="Subject..." v-model="newMail.subject">
+                <textarea class="textarea" rows="5" placeholder="Type mail..." v-model="newMail.content">
                 </textarea>   
             </label>
             <button @click.prevent="sendMail()">Send</button>
