@@ -4,6 +4,9 @@ import storageService from '../storage.service.js';
 const GEOCODE_KEY = 'AIzaSyBLTGWuNv67ZQBPz4eFJLo2cr-4qUCwW9o'
 const PLACES_KEY = 'placesDB'
 
+var prevMarker = null;
+
+
 var placesItems = [
     {
         placeId: 1,
@@ -47,7 +50,7 @@ var markers = [];
 
 function init(domElMap, domElMapSearchInput) {
     initMap(undefined, undefined, domElMap).then(() => {
-        // google.maps.event.addDomListener(window, 'load', autocomplete)
+        google.maps.event.addDomListener(window, 'load', autocomplete)
         getPlaces()
             .then((places) => addMarkers(places))
     }
@@ -90,22 +93,53 @@ function repositionMap(loc) {
     map.setCenter(loc)
 }
 
+function setPrevICon() {
+    if (prevMarker) {
+        prevMarker.setIcon(prevMarker.defaultIcon);
+        console.log('prevMarker', prevMarker)
+    }
+}
 
-function addMarker(loc, placeId) {
+function addMarker(loc, place) {
     var marker = new google.maps.Marker({
         position: loc,
         map: map,
         animation: google.maps.Animation.DROP,
         title: '',
-        placeId
+        placeId: place.placeId
     });
+    console.log('place',place)
     markers.push(marker);
-    
+    marker.addListener('click', () => {
+        console.log('clicked marker', place.placeId);
+        var infoWindow = new google.maps.InfoWindow()
+        var content = `
+            <div id="content">
+            <div id="siteNotice">
+            </div><h1 id="firstHeading" class="firstHeading">${place.name}</h1>
+            <div id="bodyContent">
+            <p><b>Place: ${place.name}</b>${place.description}</p>
+            <p>
+            <span>lat:${place.lat}</span>
+            <span>lng:${place.lng}</span>
+            </p>
+             </div>
+      `
+        infoWindow.setContent(content);
+        infoWindow.open(map, marker);
+        setPrevICon();
+        // infoWindow.close(map, prevMarker);
+        marker.defaultIcon = marker.getIcon();
+        marker.setIcon('https://lh3.ggpht.com/Tr5sntMif9qOPrKV_UVl7K8A_V3xQDgA7Sw_qweLUFlg76d_vGFA7q1xIKZ6IcmeGqg=s64');
+
+        prevMarker = marker;
+
+    })
 }
 
 function addMarkers(placesDB) {
     placesDB.forEach(place => {
-        addMarker(place.loc, place.placeId)
+        addMarker(place.loc, place)
     });
 }
 
@@ -144,6 +178,18 @@ function getById(id) {
         })
 }
 
+function addPhoto(placeId, url) {
+    var placesDB
+    return getPlaces()
+        .then(places => {
+            placesDB = places;
+            var place = placesDB.find(place => place.placeId === placeId)
+            place.photos.push(url);
+            storageService.store(PLACES_KEY, placesDB)
+            return place
+        })
+}
+
 
 
 export default {
@@ -154,7 +200,8 @@ export default {
     addMarkers,
     deletePlace,
     getById,
-    repositionMap
+    repositionMap,
+    addPhoto
 
 }
 

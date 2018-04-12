@@ -15,11 +15,24 @@ export default {
             <div class="photos" v-for="photo in place.photos">
                 <img :src="photo" alt="">
             </div>
+            <button @click="isAddingPhoto = !isAddingPhoto">Add Photos</button>
+            <form @submit.prevent="addMyPhotos" v-if="isAddingPhoto">
+                <label>
+                    <input type="text" v-model="urlInput" required
+                         placeholder="Add photo url">
+                </label>
+                <button @click="isAddingPhoto = !isAddingPhoto" type="submit">Add</button>
+            </form> 
         </section>
     `,
     data() {
         return {
-            place: {}
+            place: {},
+            isAddingPhoto: false,
+            urlInput: null,
+            placeId: null,
+            // isInValid: true
+
         }
     },
     methods: {
@@ -27,26 +40,43 @@ export default {
             mapService.deletePlace(id)
                 .then(() => {
                     console.log('delete')
-                    this.$router.push('/map') 
+                    this.$router.push('/map')
                 })
+        },
+        addMyPhotos() {
+            console.log('placeID', this.placeId)
+            mapService.addPhoto(this.placeId, this.urlInput)
+                .then( place => this.place = place)
         }
     },
     components: {
+        isInValid() {
 
+        }
 
     },
     watch: {
         $route: {
             immediate: true,
             handler() {
-                const placeId = +this.$route.params.placeId;
-                mapService.getById(placeId)
+                const id = +this.$route.params.placeId;
+                this.placeId = id
+                mapService.getById(id)
                     .then(place => {
+                        console.log('here', this.place)
                         this.place = place;
                         mapService.repositionMap(place.loc)
+                        mapService.addMarker(place)
                     })
             }
-        }
+        },
+        // place:function () {
+        //     mapService.getById(this.placeId)
+        //         .then(place => {
+        //             //   this.place = place
+
+        //         })
+        // }
 
     }
 }
