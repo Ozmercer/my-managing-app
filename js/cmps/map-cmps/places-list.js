@@ -6,27 +6,29 @@ import placeDetails from './places-details.js'
 export default {
     template: `
         <section class="places-list">
-            <place-preview :places="places"  @click.native="selected" @delete ="deletePlace"></place-preview>
-            <place-details :place="selectedPlace" v-if="selectedPlace"> </place-details>
+            <place-preview :places="places" @selected="selected" @delete ="deletePlace"></place-preview>
         </section>
     `,
     data() {
         return {
             places: [],
-            selectedPlace:null,
         }
     },
     created() {
-        this.places = mapService.query()
-        console.log(this.places)
+        mapService.query()
+            .then((places) => this.places = places)
     },
     methods: {
-        deletePlace(id){
+        deletePlace(id) {
             mapService.deletePlace(id)
-            .then(()=>console.log('delete'))
+                .then(() =>{
+                    mapService.query()
+                        .then((places) => this.places = places)
+                    this.$router.push('/map')
+                })
         },
-        selected(){
-
+        selected(placesId) {
+            this.$router.push('/map/' + placesId);
         },
     },
     components: {

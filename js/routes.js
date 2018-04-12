@@ -1,13 +1,14 @@
 import home from "./pages/home.js";
 import mail from "./pages/mail/mail.js";
 import map from "./pages/map/map.js";
+import placesDetails from "./cmps/map-cmps/places-details.js";
 
 const routes = [
     {path: '/', component: home},
     {path: '/mail', component: mail},
     {path: '/map', component: map,
         children: [
-            {path: '/map/:placeId', component: home}
+            {path: '/map/:placeId', component: placesDetails}
         ]},
 ]
 
