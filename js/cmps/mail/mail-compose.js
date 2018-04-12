@@ -1,9 +1,10 @@
 import mailService from '../../service/mail-service/mail.service.js'
 
 export default {
+    props: ['subject'],
     template: `
     <section class="mail-compose">
-        <h1>Compose mail</h1>    
+        <h1>Compose mail</h1>
         <form >
             <label>
                 <input type="text" placeholder="Subject..." v-model="newMail.subject">
@@ -23,6 +24,9 @@ export default {
             }
         }
     },
+    create() {
+        
+    },
     methods: {
         sendMail() {
             console.log('content:', this.newMail.content)
@@ -34,6 +38,15 @@ export default {
                 subject: null,
                 content: null,
                 date: null
+            }
+        }
+    },
+    watch:{
+        newMail: {
+            immediate:true,
+            handler() {
+                this.newMail.subject = this.subject
+            this.newMail.subject = this.subject
             }
         }
     }

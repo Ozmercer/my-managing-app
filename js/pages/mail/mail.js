@@ -19,22 +19,19 @@ export default {
             </li>
         </ul>
         <button @click="composeMail()">Compose new mail</button>
-        <mail-compose v-if="compose" ></mail-compose>
-        <mail-details :mail="currMail" v-if="currMail" @close-details="closeDetails()"></mail-details>
+        <!-- <view-router></view-router> -->
+        <mail-compose v-if="compose" :subject="newSubject" ></mail-compose>
+        <mail-details :mail="currMail" v-if="currMail"
+            @close-details="closeDetails()" @reply="reply"></mail-details>
     </section>
     `,
     data() {
         return {
             mails: [],
             totUnread: null,
-            currMail: {
-                id: null,
-                subject: null,
-                content: '',
-                date: null,
-                unread: null
-            },
+            currMail: null,
             compose: false,
+            newSubject: '',
             filter: {
                 byName: '',
                 byRead: 'all'
@@ -69,6 +66,7 @@ export default {
             }
             this.currMail = mail
             mailService.updateMail(mail)
+            this.compose = false
         },
         markAsUnread(mail) {
             mail.unread = true;
@@ -78,8 +76,15 @@ export default {
         closeDetails() {
             this.currMail = null;
         },
+        reply(subject) {
+            this.newSubject = 'Re: ' + subject;
+            this.compose = true;
+            this.closeDetails()
+        },
         composeMail() {
             this.compose = true;
+            this.closeDetails()
+            this.newSubject = ''
         },
         setFilter(filters) {
             this.filter = filters
