@@ -7,11 +7,6 @@ import mailSort from '../../cmps/mail/mail.sort.js'
 export default {
     template: `
     <section class="mail flex no-wrap">
-        <section class="details">
-            <mail-compose v-if="compose" :subject="newSubject" ></mail-compose>
-            <mail-details :mail="currMail" v-if="currMail"
-                @close-details="closeDetails()" @reply="reply"></mail-details>
-        </section>
         <section class="navbar flex column">
             <div class="nav-head">
                 <h1>Welcome To My Mail</h1>
@@ -21,14 +16,18 @@ export default {
                 <button @click="composeMail()">Compose new mail</button>
             </div>
             <ul >
-                <li v-for="mail in mailsToShow" @click="openMail(mail)" class="mail flex space-around" :class="{unread: mail.unread}">
+                <li v-for="mail in mailsToShow" @click="openMail(mail)" class="mail flex space-between" :class="{unread: mail.unread}">
                     <span class="subject">{{mail.subject}}</span>
                     <span class="content">{{mail.content | substr20}}</span>
                     <span class="date">{{mail.date | timeAgo}}</span>
-                    <button @click.stop="markAsUnread(mail)">Mark as unread</button>
                     <a class="delete" @click.stop="deleteMail(mail)"></a>
                 </li>
             </ul>
+        </section>
+        <section class="details">
+            <mail-compose v-if="compose" :subject="newSubject" ></mail-compose>
+            <mail-details :mail="currMail" v-if="currMail" @markAsUnread="markAsUnread"
+                @close-details="closeDetails()" @reply="reply"></mail-details>
         </section>
     </section>
     `,

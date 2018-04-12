@@ -7,6 +7,14 @@ body {
     background-color: azure
 }
 
+nav {
+    height: 40px;
+    width: 50%;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto
+}
+
 footer {
     display: flex;
     align-items: center;

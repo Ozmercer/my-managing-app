@@ -9,6 +9,7 @@ export default {
         <p>{{mail.content}}</p>
         <p>Sent at {{sentDate}}</p>
         <button @click="reply">Reply</button>
+        <button @click.stop="markAsUnread(mail)">Mark as unread</button>
     </section>
     `,
     computed: {
@@ -22,6 +23,9 @@ export default {
         },
         reply() {
             this.$emit('reply', this.mail.subject)
+        },
+        markAsUnread(mail) {
+            this.$emit('markAsUnread', this.mail)
         }
     }
 }
