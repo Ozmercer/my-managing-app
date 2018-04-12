@@ -10,7 +10,7 @@ export default {
         <h1>Welcome To My Mail</h1>
         <h2>You have {{totUnread}} unread messeges</h2>
         <mail-filter :mails="mails" @filter="setFilter"></mail-filter>
-        <mail-sort></mail-sort>
+        <mail-sort @sorted="sortBy"></mail-sort>
         <ul>
             <li v-for="mail in mailsToShow" @click="openMail(mail)" class="mail" :class="{unread: mail.unread}">
                 {{mail.subject}} | {{mail.content | substr20}} | {{(mail.unread)? 'unread mail |':''}}
@@ -29,6 +29,7 @@ export default {
             totUnread: null,
             currMail: {
                 id: null,
+                subject: null,
                 content: '',
                 date: null,
                 unread: null
@@ -83,6 +84,12 @@ export default {
         setFilter(filters) {
             this.filter = filters
         },
+        sortBy(sortBy) {
+            if (sortBy === 'subject') this.mails = mailService.sortBySubject()
+            else if (sortBy === 'date') this.mails = mailService.sortByDate()
+            
+            mailService.updateMail(this.mail)
+        }
     },
     components: {
         mailDetails,

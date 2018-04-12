@@ -4,10 +4,10 @@ export default {
         <h1>Sort E-Mails</h1>
         <label>
         Sort by: 
-        <select v-model="sortType">
-            <option value="Sort by...">Sort by</option>
-            <option value="title" @select="sortBy()">Title</option>
-            <option value="date" @select="sortBy()">Date</option>
+        <select v-model="sortType" @change="sortBy()">
+            <option value=""></option>
+            <option value="subject">subject</option>
+            <option value="date">Date</option>
         </select>
         </label>    
         {{sortType}}
@@ -18,9 +18,9 @@ export default {
             sortType: 'Sort by',
         }
     },
-    computed: {
+    methods: {
         sortBy() {
-
+            this.$emit('sorted',this.sortType)
         }
     }
 }

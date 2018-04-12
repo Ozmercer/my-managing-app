@@ -41,9 +41,30 @@ function updateMail(mail) {
     storageService.store(MAIL_KEY, mailsDB)
 }
 
+function sortBySubject() {
+    mailsDB.sort(compareSubject);
+    return mailsDB
+}
+function compareSubject(a,b) {
+    if (a.subject > b.subject) return 1;
+    if (a.subject < b.subject) return -1;
+    else return 0;
+}
+function sortByDate() {
+    mailsDB.sort(compareDate);
+    console.log('mailsDB:',mailsDB);
+    
+    return mailsDB
+}
+function compareDate(a,b) {
+    return b.date-a.date;
+}
+
 export default {
     generateMails,
     generateNewMail,
     addMail,
-    updateMail
+    updateMail,
+    sortBySubject,
+    sortByDate
 }
