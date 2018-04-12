@@ -6,6 +6,7 @@ export default {
         <h1>Compose mail</h1>    
         <form >
             <label>
+                <input type="text" placeholder="Subject..." v-model="newMail.subject">
                 <textarea cols="80" rows="5" placeholder="Type mail..." v-model="newMail.content">
                 </textarea>   
             </label>
@@ -16,6 +17,7 @@ export default {
     data() {
         return {
             newMail: {
+                subject: null,
                 content: null,
                 date: null,
             }
@@ -24,13 +26,14 @@ export default {
     methods: {
         sendMail() {
             console.log('content:', this.newMail.content)
-            this.newMail = mailService.generateNewMail(this.newMail.content, Date.now());
+            this.newMail = mailService.generateNewMail(this.newMail.subject, this.newMail.content, Date.now());
             mailService.addMail(this.newMail);
             
             // this.$emit('new-mail', this.newMail)
             this.newMail = {
+                subject: null,
                 content: null,
-                date: null,
+                date: null
             }
         }
     }

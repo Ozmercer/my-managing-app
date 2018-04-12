@@ -2,6 +2,7 @@ import mailService from '../../service/mail-service/mail.service.js'
 import mailDetails from '../../cmps/mail/mail-details.js'
 import mailCompose from '../../cmps/mail/mail-compose.js'
 import mailFilter from '../../cmps/mail/mail.filter.js'
+import mailSort from '../../cmps/mail/mail.sort.js'
 
 export default {
     template: `
@@ -9,9 +10,10 @@ export default {
         <h1>Welcome To My Mail</h1>
         <h2>You have {{totUnread}} unread messeges</h2>
         <mail-filter :mails="mails" @filter="setFilter"></mail-filter>
+        <mail-sort></mail-sort>
         <ul>
-            <li v-for="mail in mails" @click="openMail(mail)" class="mail" :class="{unread: mail.unread}">
-                {{mail.content | substr50}} | {{(mail.unread)? 'unread mail |':''}}
+            <li v-for="mail in mailsToShow" @click="openMail(mail)" class="mail" :class="{unread: mail.unread}">
+                {{mail.subject}} | {{mail.content | substr20}} | {{(mail.unread)? 'unread mail |':''}}
                 {{mail.date | timeAgo}} 
                 <button @click.stop="markAsUnread(mail)">Mark as unread</button>
             </li>
@@ -23,11 +25,19 @@ export default {
     `,
     data() {
         return {
-            mails: null,
+            mails: [],
             totUnread: null,
-            currMail: null,
+            currMail: {
+                id: null,
+                content: '',
+                date: null,
+                unread: null
+            },
             compose: false,
-            filter: null
+            filter: {
+                byName: '',
+                byRead: 'all'
+            }
         }
     },
     created() {
@@ -41,6 +51,15 @@ export default {
                 console.log(this.totUnread);
         })
     },
+    computed: {
+        mailsToShow() {
+            var toShow = this.mails.filter(mail => {
+                return (mail.content.includes(this.filter.byName) &&
+                        (this.filter.byRead === 'all' || mail.unread === this.filter.byRead))
+            })
+            return toShow
+        }
+    },
     methods: {
         openMail(mail) {
             if (mail.unread) {
@@ -48,10 +67,12 @@ export default {
                 this.totUnread--
             }
             this.currMail = mail
+            mailService.updateMail(mail)
         },
         markAsUnread(mail) {
             mail.unread = true;
-            this.totUnread++
+            this.totUnread++;
+            mailService.updateMail(mail)
         },
         closeDetails() {
             this.currMail = null;
@@ -61,13 +82,13 @@ export default {
         },
         setFilter(filters) {
             this.filter = filters
-            console.log(this.filter);
         },
     },
     components: {
         mailDetails,
         mailCompose,
-        mailFilter
+        mailFilter,
+        mailSort
     },
 
 }
