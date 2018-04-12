@@ -3,9 +3,9 @@
 @import './mail.css';
 @import './basic.css';
 
-body {
+/* body {
     background-color: azure
-}
+} */
 
 nav {
     height: 40px;
@@ -16,6 +16,9 @@ nav {
 }
 
 footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
