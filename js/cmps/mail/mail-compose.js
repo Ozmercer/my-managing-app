@@ -6,7 +6,8 @@ export default {
         <h1>Compose mail</h1>    
         <form >
             <label>
-                <input type="text" placeholder="Type mail..." v-model="newMail.content">
+                <textarea cols="80" rows="5" placeholder="Type mail..." v-model="newMail.content">
+                </textarea>   
             </label>
             <button @click.prevent="sendMail()">Send</button>
         </form>
@@ -26,7 +27,7 @@ export default {
             this.newMail = mailService.generateNewMail(this.newMail.content, Date.now());
             mailService.addMail(this.newMail);
             
-            this.$emit('new-mail', this.newMail)
+            // this.$emit('new-mail', this.newMail)
             this.newMail = {
                 content: null,
                 date: null,

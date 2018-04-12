@@ -7,16 +7,19 @@ var MAIL_KEY = 'e-mails'
 
 
 function generateMails() {
-    if (storageService.load(MAIL_KEY)) mails = storageService.load(MAIL_KEY);
-    else {
-        var mails = [];
-        for (var i=0;i<10;i++) {
-            mails.push(generateNewMail())
-        }
-    }    
-    mailsDB = mails
-    storageService.store(MAIL_KEY, mailsDB)
-    return mailsDB
+    return storageService.load(MAIL_KEY)
+    .then(inStorage => {
+        if (inStorage) mailsDB = inStorage;
+        else {
+            var mails = [];
+            for (var i=0;i<10;i++) {
+                mails.push(generateNewMail())
+            }
+            mailsDB = mails
+        }    
+        storageService.store(MAIL_KEY, mailsDB).then(mails => mailsDB)
+        return Promise.resolve(mailsDB)
+    })
 }
 
 function generateNewMail(content, date) {
@@ -31,6 +34,10 @@ function generateNewMail(content, date) {
 function addMail(mail) {
     mailsDB.unshift(mail);
     storageService.store(MAIL_KEY, mailsDB)
+}
+
+function editMail(mail) {
+
 }
 
 export default {
