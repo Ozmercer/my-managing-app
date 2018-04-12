@@ -5,8 +5,11 @@ const GEOCODE_KEY = 'AIzaSyBLTGWuNv67ZQBPz4eFJLo2cr-4qUCwW9o'
 var placesDB = [
     {
         placeId:1,
-        name: 'Jerusalem',
-        loc: {lat : 32.0749831, lng : 34.9120554}
+        name: 'Tel Aviv',
+        loc: {lat : 32.0749831, lng : 34.9120554},
+        description:'place description',
+        photos: [],
+        tag:[] 
         
     },
     {
@@ -17,24 +20,18 @@ var placesDB = [
     {
         placeId:3,
         name: 'Jerusalem',
-        loc: {lat : 32.0749831, lng : 34.9120554}
+        loc: {lat :31.768319, lng : 35.21370999999999}
     },
     {
         placeId:4,
-        name: 'Jerusalem',
-        loc: {lat : 32.0749831, lng : 34.9120554}
-        
-    },
-    {
-        placeId:5,
-        name: 'Jerusalem',
-        loc: {lat : 32.0749831, lng : 34.9120554}
+        name: 'Petah Tikva, Israel',
+        loc: {lat : 32.084041, lng : 34.887762000000066}
         
     }
 ]
 
 var map;
-var marker;
+var markers = [];
 
 function initMap(lat = 32.0749831, lng = 34.9120554, domEl) {
 
@@ -58,12 +55,13 @@ function repositionMap(loc) {
 
 
 function addMarker(loc) {
-    marker = new google.maps.Marker({
+    var marker = new google.maps.Marker({
         position: loc,
         map: map,
         animation: google.maps.Animation.DROP,
         title: ''
     });
+    markers.push(marker);
 }
 
 function addMarkers(){

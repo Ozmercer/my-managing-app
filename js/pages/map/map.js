@@ -7,6 +7,7 @@ export default {
             <h1>My Maps</h1>
             <map-canvas></map-canvas>
             <places-list :places="places"></places-list>
+            <router-view></router-view>
         </section>
     `,
     data() {
