@@ -9,17 +9,18 @@ export default {
     <section class="mail flex no-wrap container1">
         <section class="navbar flex column">
             <div class="nav-head">
+                <h3 class="subtitle">My Managing App</h3>
+                <hr>
                 <mail-filter :mails="mails" @filter="setFilter"></mail-filter>
-                <!-- <mail-sort @sorted="sortBy"></mail-sort> -->
                 <div class="label flex space-between">
                     Sort by:
                     <div class="btns">
                         <button class="button is-outlined is-small is-rounded" 
                         @click.stop="sortBy('subject')">
-                        Subject
+                        Subject {{subjectAscending}}
                     </button>
                         <button class="button is-small is-rounded" @click.stop="sortBy('date')">
-                            Date
+                            Date {{dateAscending}}
                         </button>
                     </div>
                 </div>
@@ -35,17 +36,23 @@ export default {
                         <span class="date">{{mail.date | timeAgo}}</span>
                     </div>
                     <div class="preview-bottom flex space-between">
-                        <span class="content">{{mail.content | substr20}}</span>
-                        <a class="delete" @click.stop="deleteMail(mail)"></a>
+                        <span class="content">{{mail.content | substr30}}</span>
+                        <a  @click.stop="markAsRead(mail)" v-if="mail.unread" >
+                            <i class="far fa-envelope-open" title="mark as read"></i>
+                        </a>
+                        <a  @click.stop="markAsUnread(mail)" v-else>
+                            <i class="far fa-envelope" title="mark as unread"></i>
+                        </a>
                     </div>
                 </li>
             </ul>
         </section>
         <section class="details">
             <div class="default-area" v-if="!currMail && !compose">
-                <h1>Welcome To My Mail</h1>
-                <h2>You have <b>{{totUnread}}</b> unread messeges</h2>
-                <h2>You have a total of <b>{{mails.length}}</b> messegaes</h2>
+                <h1 class="title is-2">Welcome To My Mail</h1>
+                <p></p>
+                <h2 class="subtitle">You have <b>{{totUnread}}</b> unread messeges</h2>
+                <h2 class="subtitle">You have a total of <b>{{mails.length}}</b> messegaes</h2>
                 <progress class="progress" :value="unreadMails" max="100"></progress>
             </div>
             <mail-compose v-if="compose" :subject="newSubject" @close="closeCompose"></mail-compose>
@@ -64,7 +71,9 @@ export default {
             filter: {
                 byName: '',
                 byRead: 'all'
-            }
+            },
+            subjectAscending: '▼',
+            dateAscending: '▼'
         }
     },
     created() {
@@ -81,7 +90,8 @@ export default {
     computed: {
         mailsToShow() {
             var toShow = this.mails.filter(mail => {
-                return (mail.content.includes(this.filter.byName) &&
+                return ((mail.subject.includes(this.filter.byName) ||
+                         mail.content.includes(this.filter.byName)) &&
                         (this.filter.byRead === 'all' || mail.unread === this.filter.byRead))
             })
             return toShow
@@ -104,6 +114,11 @@ export default {
         markAsUnread(mail) {
             mail.unread = true;
             this.totUnread++;
+            mailService.updateMail(mail)
+        },
+        markAsRead(mail) {
+            mail.unread = false;
+            this.totUnread--;
             mailService.updateMail(mail)
         },
         closeDetails() {
@@ -129,8 +144,18 @@ export default {
             this.filter = filters
         },
         sortBy(sortBy) {
-            if (sortBy === 'subject') this.mails = mailService.sortBySubject()
-            else if (sortBy === 'date') this.mails = mailService.sortByDate()
+            if (sortBy === 'subject') {
+                var a = mailService.sortBySubject()
+                this.mails = a.mailsDB
+                this.subjectAscending = a.isAscending
+                
+            }
+            else if (sortBy === 'date') {
+                var a = mailService.sortByDate()
+                this.mails = a.mailsDB
+                this.dateAscending = a.isAscending;
+                
+            } 
             
             mailService.updateMail(this.mail)
         }

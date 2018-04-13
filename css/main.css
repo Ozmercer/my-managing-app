@@ -18,11 +18,11 @@ nav {
 footer {
     position: fixed;
     bottom: 0;
+    height: 60px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 60px;
     background-color: black;
     color: azure;
     text-align: center;

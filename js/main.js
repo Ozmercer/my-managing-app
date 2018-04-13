@@ -1,9 +1,11 @@
 import router from './routes.js'
 import utilsService from './service/util.service.js'
 
-Vue.filter('substr20', function (value) {
+Vue.filter('substr30', function (value) {
     if (!value) return ''
-    return value.substring(0,20).trim()
+    var suffix = '';
+    if (value.length > 30) suffix = '...'
+    return value.substring(0,30).trim() + suffix
   })
 Vue.filter('timeAgo', function (value) {
     if (!value) return ''

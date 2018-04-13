@@ -2,14 +2,21 @@ export default {
     props: ['mail'],
     template: `
     <section class="mail-details">
-        <button @click="close">X</button>
-        <h1>mail details</h1>
-        <p>Subject: {{mail.subject}} </p>
-        <p>Mail content:</p>
-        <p>{{mail.content}}</p>
-        <p>Sent at {{sentDate}}</p>
-        <button @click="reply">Reply</button>
-        <button @click.stop="markAsUnread(mail)">Mark as unread</button>
+        <article class="message is-info">
+            <div class="message-header">
+                <p>mail details</p>
+                <button class="delete" @click="close">X</button>
+            </div>
+            <div class="message-body">
+                <p class="content">Sent at {{sentDate}}</p>
+                <h3 class="title is-4">Subject: {{mail.subject}}</h3>
+                <hr>
+                <h5 class="subtitle">Mail content:</h5>
+                <p>{{mail.content}}</p>
+            </div>
+        </article>
+        <button class="button is-rounded" @click="reply">Reply</button>
+        <button class="button is-rounded" @click.stop="markAsUnread(mail)">Mark as unread</button>
     </section>
     `,
     computed: {
