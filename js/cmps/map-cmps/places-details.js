@@ -58,7 +58,7 @@ export default {
                     .then(place => {
                         console.log('here', this.place)
                         this.place = place;
-                        mapService.addMarker(place)
+                        // mapService.addMarker(place)
                         mapService.repositionMap(place.loc)
                         mapService.triggerMarker(id)
                     })

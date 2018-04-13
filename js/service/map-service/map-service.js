@@ -1,16 +1,24 @@
 import { GoogleMapsApi } from './gmaps.class.js';
 import storageService from '../storage.service.js';
+import eventbus, { GOOGLE_AUTOCOMPLETE } from '../eventBus.js';
+
 
 const GEOCODE_KEY = 'AIzaSyBLTGWuNv67ZQBPz4eFJLo2cr-4qUCwW9o'
 const PLACES_KEY = 'placesDB'
 
 var prevMarker = null;
-var loc = {
-    lat: null,
-    lng: null,
+var currMarker = null;
+var newPlace = {
+    // id: null,
+    name: null,
+    loc: {
+        lat: null,
+        lng: null,
+    }
 };
 var map;
 var markers = [];
+
 
 
 
@@ -55,8 +63,9 @@ var placesItems = [
 
 function init(domElMap, domElMapSearchInput) {
     initMap(undefined, undefined, domElMap).then(() => {
-        google.maps.event.addDomListener(window, 'load', autocomplete)
         var infoWindow = new google.maps.InfoWindow()
+        google.maps.event.addDomListener(window, 'load', autocomplete)
+
         getPlaces()
             .then((places) => addMarkers(places))
     }
@@ -106,88 +115,87 @@ function setPrevICon() {
     }
 }
 
-function addMarker(loc, place) {
+
+
+function addMarker(place) {
     var marker = new google.maps.Marker({
-        position: loc,
+        position: place.loc,
         map: map,
         animation: google.maps.Animation.DROP,
         title: '',
-        placeId: place.placeId
+        // placeId: (place.placeId) ? place.placeId : newPlace.id
     });
+    var lat = (place.placeId) ? place.loc.lat : newPlace.loc.lat
+    var lng = (place.placeId) ? place.loc.lag : newPlace.loc.lng
+    var name = (place.placeId) ? place.name : newPlace.name
     console.log('place', marker.placeId)
-    markers.push(marker);
+    if (place.placeId) {
+        markers.push(marker);
+    } else {
+        currMarker.setMap(null);
+        currMarker = marker;    
+    }
     marker.addListener('click', () => {
-        console.log('clicked marker', place.placeId);
-
-        var content = `
-            <div id="content">
-            <div id="siteNotice"></div>
-            <h1 id="firstHeading" class="firstHeading">
-                <b>${place.name}</b>
-            </h1>
-            <div id="bodyContent">
-                <p> ${place.description}</p>
-                <p>
-                    <span>lat: ${loc.lat}</span>
-                    <span>lng: ${loc.lng}</span>
-                </p>
-             </div>
-      `
+            var content = `
+                <div id="content">
+                <div id="siteNotice"></div>
+                <h1 id="firstHeading" class="firstHeading">
+                    <b>${place.name}</b>
+                </h1>
+                <div id="bodyContent">
+                    <p>
+                        <span>lat: ${place.loc.lat}</span>
+                        <span>lng: ${place.loc.lng}</span>
+                    </p>
+                </div>
+            `
         var infoWindow = new google.maps.InfoWindow()
         infoWindow.setContent(content);
         infoWindow.open(map, marker);
         setPrevICon();
         marker.defaultIcon = marker.getIcon();
         marker.setIcon('https://lh3.ggpht.com/Tr5sntMif9qOPrKV_UVl7K8A_V3xQDgA7Sw_qweLUFlg76d_vGFA7q1xIKZ6IcmeGqg=s64');
-
         prevMarker = marker;
-
     })
 }
 
 function addMarkers(placesDB) {
     placesDB.forEach(place => {
         console.log('place', place)
-        addMarker(place.loc, place)
+        addMarker(place)
     });
 }
 
-function triggerMarker(placeId) {
-    var marker = markers.find((maker) => placeId === maker.placeId)
-    console.log(marker)
-    new google.maps.event.trigger(marker, 'click');
+function triggerMarker(idx) {
+    var triggerMaker;
+    if (idx) {
+        triggerMaker = markers[idx]
+    } else {
+        triggerMaker = markers[(length - 1)]
+    }
+    new google.maps.event.trigger(triggerMaker, 'click');
 }
 
 
 function autocomplete() {
-    var input = document.querySelector('.map-search-input');
+    var input = document.querySelector('#map-search-input');
     var autocomplete = new google.maps.places.Autocomplete(input);
     google.maps.event.addListener(autocomplete, 'place_changed', () => {
         console.log('autocomplete', autocomplete.getPlace().formatted_address)
-        loc.lat = autocomplete.getPlace().geometry.location.lat()
-        loc.lng = autocomplete.getPlace().geometry.location.lng()
-        addNewPlace(loc, autocomplete.getPlace().formatted_address);
+        newPlace.loc.lat = autocomplete.getPlace().geometry.location.lat()
+        newPlace.loc.lng = autocomplete.getPlace().geometry.location.lng()
+        newPlace.name = autocomplete.getPlace().formatted_address;
+
     })
 }
 
-function addNewPlace(loc, name) {
-    var newPlace = {
-        placeId: Date.now,
-        name,
-        loc,
-        description: '',
-        photos: [],
-        tags: []
-    }
-    addMarker(loc, newPlace);
-    repositionMap(loc);
-    // console.log("!!!!!!!!!!!!!!!1",newPlace)
-}
-function deletePlace(placeId) {
+
+function deletePlace(placeId,makerIdx) {
     return storageService.load(PLACES_KEY)
         .then(placesDB => {
             var idx = placesDB.findIndex((place) => place.placeId === placeId);
             placesDB.splice(idx, 1)
+            markers[makerIdx].setMap(null);
             return storageService.store(PLACES_KEY, placesDB)
         })
 }
@@ -211,18 +219,28 @@ function addPlace(place, placeId) {
     return storageService.load(PLACES_KEY)
         .then(places => {
             if (placeId) {
-                var idx = placesDB.findIndex(place => place.placeId === placeId)
-                placesDB.splice(idx, 1, place)
+                var idx = places.findIndex(place => place.placeId === placeId)
+                places.splice(idx, 1, place)
             } else {
-                place.placeId = Date.now;
+                place.placeId = Date.now()
+                places.push(place)
+                currMarker.setMap(null);
+                addMarker(place)
             }
+            console.log("!!!!!!!!!!!!!!!!!!!", place)
             storageService.store(PLACES_KEY, places)
             return place
         })
 }
 
-function getLoc() {
-    return loc
+
+function getNewPlace() {
+    addMarker(newPlace);
+    repositionMap(newPlace.loc);
+    setTimeout(() => {
+        eventbus.$emit(GOOGLE_AUTOCOMPLETE, newPlace)
+
+    }, 500)
 }
 
 export default {
@@ -236,7 +254,7 @@ export default {
     repositionMap,
     addPlace,
     triggerMarker,
-    getLoc,
+    getNewPlace,
 
 
 }

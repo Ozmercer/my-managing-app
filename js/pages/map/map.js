@@ -6,14 +6,14 @@ export default {
         <section class="map-app flex justify-center ">
             <map-canvas></map-canvas>
             <div class="info-container flex column pace-between">
-                <places-list :places="places"></places-list>
+                <places-list></places-list>
                 <router-view></router-view>
             </div>
         </section>
     `,
     data() {
         return {
-            places:[]
+            
         }
     },
     created() {
@@ -24,4 +24,5 @@ export default {
         mapCanvas,
         placesList,
     }
+    
 }

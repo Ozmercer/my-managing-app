@@ -1,13 +1,15 @@
 import mapService from '../../service/map-service/map-service.js';
+import eventBus, { GOOGLE_AUTOCOMPLETE } from '../../service/eventBus.js'
+
 export default {
     template: `
-        <form @submit.prevent="" class="places-edit">
+        <form @submit.prevent="savePlace" class="places-edit">
             <div class="">
                 <label class="label">
                     Name: 
-                    <input type="text" v-model="place.name" class="input-name">
+                    <input type="text" v-model="place.name" class="input-name">   
                 </label>
-            </div>
+            </div>  
             <div>
                 <label class="label">
                     Description: 
@@ -20,6 +22,10 @@ export default {
                         <!-- <button @click="delete-photo">X</button> -->
                         <span>{{tag}} </span>
                     </span>
+                    <div>
+                        <input type="text" v-model="tag" placeholder="add tag"/>
+                        <button @click.stop="addTag">add tag</button>
+                     </div>
             </div>
             <div class="edit-photos" v-if="place.photos.length"  v-for="(photo,idx) in place.photos">
                     <!-- <button @click="delete-photo">X</button> -->
@@ -27,9 +33,9 @@ export default {
             </div>
             <div>
                 <label v-if="addPhoto">
-                    <input type="text" v-model="urlInput" required
+                    <input type="text" v-model="photoUrl" required
                           placeholder="Add photo url">
-                    <button  @click="addPhotoUrl" >Add photo</button>      
+                    <button  @click="addPhotoUrl" type="text" >Add photo</button>      
                 </label>
                 <button v-if="!addPhoto" @click="addPhoto = !addPhoto" >Add</button>
             </div>
@@ -40,39 +46,45 @@ export default {
     data() {
         return {
             place: {
-                placeId: Date.now,
+                placeId: null,
                 name: '',
                 loc: { lat: null, lng: null },
                 description: '',
                 photos: [],
                 tags: []
             },
-            urlInput: '',
-            addPhoto: false
+            addPhoto: false,
+            isUpdate: false,
+            tag: null,
+            photoUrl: null
         }
     },
-
     created() {
-        mapService.query()
-            .then((places) => this.places = places)
+        eventBus.$on(GOOGLE_AUTOCOMPLETE, newPlace => {
+            this.place.name = newPlace.name
+            this.place.loc = newPlace.loc
+        })
     },
     methods: {
-        deletePlace(id) {
-            mapService.deletePlace(id)
-                .then(() => {
-                    mapService.query()
-                        .then((places) => this.places = places)
+        savePlace() {
+            console.log('placeID', this.place.placeId)
+            mapService.addPlace(this.place,this.place.placeId)
+                .then(place =>{
                     this.$router.push('/map')
-                })
-        },
-        addPlace() {
-            console.log('placeID', this.placeId)
-            mapService.addPhoto(this.placeId, this.urlInput)
-                .then(place => this.place = place)
+                    mapService.triggerMarker()
+                } 
+            )
         },
         addPhotoUrl() {
             this.addPhoto = !addPhoto;
+            this.place.photos.push(this.tag)
+            this.tag = null;
+        },
+        addTag() {
+            this.place.tags.push(this.tag)
+            this.tag = null;
         }
+
     },
     watch: {
         $route: {
@@ -80,10 +92,11 @@ export default {
             handler() {
                 const id = +this.$route.params.placeId;
                 if (id) {
+                    this.isUpdate = true
                     mapService.getById(id)
                         .then(place => {
-                            console.log('here', this.place)
                             this.place = place;
+                            console.log('here', this.place)
 
                         })
                 }

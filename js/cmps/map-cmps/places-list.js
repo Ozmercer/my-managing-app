@@ -15,26 +15,34 @@ export default {
         }
     },
     created() {
-        mapService.query()
-            .then((places) => this.places = places)
-            
+
     },
     methods: {
-        deletePlace(id) {
-            mapService.deletePlace(id)
-                .then(() =>{
+        deletePlace(ev) {
+            console.log('ev',ev)
+            mapService.deletePlace(ev.id,ev.idx)
+                .then(() => {
                     mapService.query()
                         .then((places) => this.places = places)
                     this.$router.push('/map')
                 })
         },
-        selected(placeId) {
+        selected(placeId,idx) {
             this.$router.push('/map/details/' + placeId);
-            mapService.triggerMarker(placeId)
+            mapService.triggerMarker(idx)
         },
     },
     components: {
         placePreview,
         placeDetails
-    }
+    },
+    watch: {
+        $route: {
+            immediate: true,
+            handler() {
+                mapService.query()
+                    .then((places) => this.places = places)
+            }
+        }
+    },
 }
