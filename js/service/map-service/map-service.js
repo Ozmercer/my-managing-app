@@ -5,6 +5,13 @@ const GEOCODE_KEY = 'AIzaSyBLTGWuNv67ZQBPz4eFJLo2cr-4qUCwW9o'
 const PLACES_KEY = 'placesDB'
 
 var prevMarker = null;
+var loc = {
+    lat: null,
+    lng: null,
+};
+var map;
+var markers = [];
+
 
 
 var placesItems = [
@@ -44,13 +51,12 @@ var placesItems = [
     }
 ]
 
-var map;
-var markers = [];
 
 
 function init(domElMap, domElMapSearchInput) {
     initMap(undefined, undefined, domElMap).then(() => {
         google.maps.event.addDomListener(window, 'load', autocomplete)
+        var infoWindow = new google.maps.InfoWindow()
         getPlaces()
             .then((places) => addMarkers(places))
     }
@@ -108,27 +114,29 @@ function addMarker(loc, place) {
         title: '',
         placeId: place.placeId
     });
-    console.log('place',place)
+    console.log('place', marker.placeId)
     markers.push(marker);
     marker.addListener('click', () => {
         console.log('clicked marker', place.placeId);
-        var infoWindow = new google.maps.InfoWindow()
+
         var content = `
             <div id="content">
-            <div id="siteNotice">
-            </div><h1 id="firstHeading" class="firstHeading">${place.name}</h1>
+            <div id="siteNotice"></div>
+            <h1 id="firstHeading" class="firstHeading">
+                <b>${place.name}</b>
+            </h1>
             <div id="bodyContent">
-            <p><b>Place: ${place.name}</b>${place.description}</p>
-            <p>
-            <span>lat:${place.lat}</span>
-            <span>lng:${place.lng}</span>
-            </p>
+                <p> ${place.description}</p>
+                <p>
+                    <span>lat: ${loc.lat}</span>
+                    <span>lng: ${loc.lng}</span>
+                </p>
              </div>
       `
+        var infoWindow = new google.maps.InfoWindow()
         infoWindow.setContent(content);
         infoWindow.open(map, marker);
         setPrevICon();
-        // infoWindow.close(map, prevMarker);
         marker.defaultIcon = marker.getIcon();
         marker.setIcon('https://lh3.ggpht.com/Tr5sntMif9qOPrKV_UVl7K8A_V3xQDgA7Sw_qweLUFlg76d_vGFA7q1xIKZ6IcmeGqg=s64');
 
@@ -139,21 +147,42 @@ function addMarker(loc, place) {
 
 function addMarkers(placesDB) {
     placesDB.forEach(place => {
+        console.log('place', place)
         addMarker(place.loc, place)
     });
 }
+
+function triggerMarker(placeId) {
+    var marker = markers.find((maker) => placeId === maker.placeId)
+    console.log(marker)
+    new google.maps.event.trigger(marker, 'click');
+}
+
 
 function autocomplete() {
     var input = document.querySelector('.map-search-input');
     var autocomplete = new google.maps.places.Autocomplete(input);
     google.maps.event.addListener(autocomplete, 'place_changed', () => {
-        setTimeout(() => {
-            document.querySelector(".map-search-btn").click();
-        }, 200)
+        console.log('autocomplete', autocomplete.getPlace().formatted_address)
+        loc.lat = autocomplete.getPlace().geometry.location.lat()
+        loc.lng = autocomplete.getPlace().geometry.location.lng()
+        addNewPlace(loc, autocomplete.getPlace().formatted_address);
     })
 }
 
-
+function addNewPlace(loc, name) {
+    var newPlace = {
+        placeId: Date.now,
+        name,
+        loc,
+        description: '',
+        photos: [],
+        tags: []
+    }
+    addMarker(loc, newPlace);
+    repositionMap(loc);
+    // console.log("!!!!!!!!!!!!!!!1",newPlace)
+}
 function deletePlace(placeId) {
     return storageService.load(PLACES_KEY)
         .then(placesDB => {
@@ -178,19 +207,23 @@ function getById(id) {
         })
 }
 
-function addPhoto(placeId, url) {
-    var placesDB
-    return getPlaces()
+function addPlace(place, placeId) {
+    return storageService.load(PLACES_KEY)
         .then(places => {
-            placesDB = places;
-            var place = placesDB.find(place => place.placeId === placeId)
-            place.photos.push(url);
-            storageService.store(PLACES_KEY, placesDB)
+            if (placeId) {
+                var idx = placesDB.findIndex(place => place.placeId === placeId)
+                placesDB.splice(idx, 1, place)
+            } else {
+                place.placeId = Date.now;
+            }
+            storageService.store(PLACES_KEY, places)
             return place
         })
 }
 
-
+function getLoc() {
+    return loc
+}
 
 export default {
     init,
@@ -201,7 +234,10 @@ export default {
     deletePlace,
     getById,
     repositionMap,
-    addPhoto
+    addPlace,
+    triggerMarker,
+    getLoc,
+
 
 }
 

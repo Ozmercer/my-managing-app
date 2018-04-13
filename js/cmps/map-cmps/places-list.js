@@ -17,6 +17,7 @@ export default {
     created() {
         mapService.query()
             .then((places) => this.places = places)
+            
     },
     methods: {
         deletePlace(id) {
@@ -27,8 +28,9 @@ export default {
                     this.$router.push('/map')
                 })
         },
-        selected(placesId) {
-            this.$router.push('/map/' + placesId);
+        selected(placeId) {
+            this.$router.push('/map/details/' + placeId);
+            mapService.triggerMarker(placeId)
         },
     },
     components: {

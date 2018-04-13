@@ -15,20 +15,14 @@ export default {
             <div class="photos" v-for="photo in place.photos">
                 <img :src="photo" alt="">
             </div>
-            <button @click="isAddingPhoto = !isAddingPhoto">Add Photos</button>
-            <form @submit.prevent="addMyPhotos" v-if="isAddingPhoto">
-                <label>
-                    <input type="text" v-model="urlInput" required
-                         placeholder="Add photo url">
-                </label>
-                <button @click="isAddingPhoto = !isAddingPhoto" type="submit">Add</button>
-            </form> 
+            <button @click="edit">Edit</button>
+            <button @click="">Delete</button>
+       
         </section>
     `,
     data() {
         return {
             place: {},
-            isAddingPhoto: false,
             urlInput: null,
             placeId: null,
             // isInValid: true
@@ -43,11 +37,10 @@ export default {
                     this.$router.push('/map')
                 })
         },
-        addMyPhotos() {
-            console.log('placeID', this.placeId)
-            mapService.addPhoto(this.placeId, this.urlInput)
-                .then( place => this.place = place)
+        edit(){
+            this.$router.push('/map/edit/'+ this.place.placeId)
         }
+      
     },
     components: {
         isInValid() {
@@ -65,8 +58,9 @@ export default {
                     .then(place => {
                         console.log('here', this.place)
                         this.place = place;
-                        mapService.repositionMap(place.loc)
                         mapService.addMarker(place)
+                        mapService.repositionMap(place.loc)
+                        mapService.triggerMarker(id)
                     })
             }
         },

@@ -1,15 +1,14 @@
 import mapCanvas from '../../cmps/map-cmps/map-canvas.js'
 import placesList  from '../../cmps/map-cmps/places-list.js'
-import mapSearchForm from '../../cmps/map-cmps/map-search-form.js'
 
 export default {
     template: `
-        <section class="map-app">
-            <h1>My Maps</h1>
+        <section class="map-app flex justify-center ">
             <map-canvas></map-canvas>
-            <map-search-form></map-search-form>
-            <places-list :places="places"></places-list>
-            <router-view></router-view>
+            <div class="info-container flex column pace-between">
+                <places-list :places="places"></places-list>
+                <router-view></router-view>
+            </div>
         </section>
     `,
     data() {
@@ -24,6 +23,5 @@ export default {
     components: {
         mapCanvas,
         placesList,
-        mapSearchForm
     }
 }

@@ -1,7 +1,7 @@
 
 export default {
     template: `
-      <form @submit.prevent="searchLoc" class="map-search-form">
+      <form @submit.prevent="redirect" class="map-search-form">
          <label>
              <input type="text" class="map-search-input">
          </label>
@@ -16,4 +16,12 @@ export default {
     created() {
         
     },
+    methods:{
+        redirect(){
+            this.$router.push('/map/edit');
+        }
+    },
+    components: {
+       
+    }
 }

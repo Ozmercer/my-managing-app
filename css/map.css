@@ -1,7 +1,6 @@
 #map{
-    position: absolute !important;
-    z-index: -1;
-    top:0
+    width:400px !important;
+    height: 400px;
 }
 .places-list{
     background: #fff;
@@ -16,8 +15,5 @@
     max-width: 150px;
 }
 
-section{
-    width: fit-content;
-}
 
 
