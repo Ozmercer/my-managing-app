@@ -49,7 +49,10 @@ function updateMail(mail) {
 }
 
 function sortBySubject() {
-    mailsDB.sort(compareSubject);
+    var sorted = mailsDB.slice()
+    sorted.sort(compareSubject);
+    if (JSON.stringify(sorted) === JSON.stringify(mailsDB)) sorted.reverse();
+    mailsDB = sorted;
     return mailsDB
 }
 function compareSubject(a,b) {
@@ -58,8 +61,10 @@ function compareSubject(a,b) {
     else return 0;
 }
 function sortByDate() {
-    mailsDB.sort(compareDate);
-    console.log('mailsDB:',mailsDB);
+    var sorted = mailsDB.slice()
+    sorted.sort(compareDate);
+    if (JSON.stringify(sorted) === JSON.stringify(mailsDB)) sorted.reverse();
+    mailsDB = sorted
     
     return mailsDB
 }

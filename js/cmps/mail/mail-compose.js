@@ -4,14 +4,20 @@ export default {
     props: ['subject'],
     template: `
     <section class="mail-compose">
-        <h1>Compose mail</h1>
+        <div class="compose-top flex space-between">
+            <h1>Compose mail</h1>
+            <button class="delete" @click="close"></button>
+        </div>
         <form >
             <label>
-                <input class="input" type="text" placeholder="Subject..." v-model="newMail.subject">
+                <input class="input" type="text" placeholder="Subject..." v-model="newMail.subject"><br>
+                <input class="input" type="text" value="TO: myself" disabled>
                 <textarea class="textarea" rows="5" placeholder="Type mail..." v-model="newMail.content">
                 </textarea>   
             </label>
-            <button @click.prevent="sendMail()">Send</button>
+            <div class="right">
+                <button @click.prevent="sendMail()" class="button is-success is-large">Send</button>
+            </div>
         </form>
     </section>
     `,
@@ -39,6 +45,9 @@ export default {
                 content: null,
                 date: null
             }
+        },
+        close() {
+            this.$emit('close')
         }
     },
     watch:{

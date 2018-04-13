@@ -21,6 +21,13 @@
     right: 0;
     text-align: right;
 }
+.absolute {
+    position: absolute;
+}
+
+.center {
+    margin: 0 auto;
+}
 
 /*---flex---*/
 

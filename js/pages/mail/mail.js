@@ -6,28 +6,51 @@ import mailSort from '../../cmps/mail/mail.sort.js'
 
 export default {
     template: `
-    <section class="mail flex no-wrap">
+    <section class="mail flex no-wrap container1">
         <section class="navbar flex column">
             <div class="nav-head">
-                <h1>Welcome To My Mail</h1>
-                <h2>You have {{totUnread}} unread messeges</h2>
                 <mail-filter :mails="mails" @filter="setFilter"></mail-filter>
-                <mail-sort @sorted="sortBy"></mail-sort>
-                <button @click="composeMail()">Compose new mail</button>
+                <!-- <mail-sort @sorted="sortBy"></mail-sort> -->
+                <div class="label flex space-between">
+                    Sort by:
+                    <div class="btns">
+                        <button class="button is-outlined is-small is-rounded" 
+                        @click.stop="sortBy('subject')">
+                        Subject
+                    </button>
+                        <button class="button is-small is-rounded" @click.stop="sortBy('date')">
+                            Date
+                        </button>
+                    </div>
+                </div>
+                <button class="button is-rounded is-danger center" @click="composeMail()">
+                    Compose new mail
+                </button>
             </div>
             <ul >
-                <li v-for="mail in mailsToShow" @click="openMail(mail)" class="mail flex space-between" :class="{unread: mail.unread}">
-                    <span class="subject">{{mail.subject}}</span>
-                    <span class="content">{{mail.content | substr20}}</span>
-                    <span class="date">{{mail.date | timeAgo}}</span>
-                    <a class="delete" @click.stop="deleteMail(mail)"></a>
+                <li v-for="mail in mailsToShow" @click="openMail(mail)" 
+                    class="mail" :class="{unread: mail.unread}">
+                    <div class="preview-top flex space-between">
+                        <span class="subject">{{mail.subject}}</span>
+                        <span class="date">{{mail.date | timeAgo}}</span>
+                    </div>
+                    <div class="preview-bottom flex space-between">
+                        <span class="content">{{mail.content | substr20}}</span>
+                        <a class="delete" @click.stop="deleteMail(mail)"></a>
+                    </div>
                 </li>
             </ul>
         </section>
         <section class="details">
-            <mail-compose v-if="compose" :subject="newSubject" ></mail-compose>
+            <div class="default-area" v-if="!currMail && !compose">
+                <h1>Welcome To My Mail</h1>
+                <h2>You have <b>{{totUnread}}</b> unread messeges</h2>
+                <h2>You have a total of <b>{{mails.length}}</b> messegaes</h2>
+                <progress class="progress" :value="unreadMails" max="100"></progress>
+            </div>
+            <mail-compose v-if="compose" :subject="newSubject" @close="closeCompose"></mail-compose>
             <mail-details :mail="currMail" v-if="currMail" @markAsUnread="markAsUnread"
-                @close-details="closeDetails()" @reply="reply"></mail-details>
+                @close="closeDetails()" @reply="reply"></mail-details>
         </section>
     </section>
     `,
@@ -53,7 +76,7 @@ export default {
             })
             this.totUnread = count;
                 console.log(this.totUnread);
-        })
+            })
     },
     computed: {
         mailsToShow() {
@@ -62,6 +85,10 @@ export default {
                         (this.filter.byRead === 'all' || mail.unread === this.filter.byRead))
             })
             return toShow
+        },
+        unreadMails() {
+            var percent = this.totUnread / this.mails.length * 100
+            return parseInt(percent) || 0
         }
     },
     methods: {
@@ -81,6 +108,9 @@ export default {
         },
         closeDetails() {
             this.currMail = null;
+        },
+        closeCompose() {
+            this.compose = false;
         },
         reply(subject) {
             this.newSubject = 'Re: ' + subject;
