@@ -17,6 +17,10 @@
 
 .nav-head {
     direction: ltr;
+    background-color: #f4f4ff;
+    padding: 10px;
+    text-align: center
+    
 }
 
 .mail .navbar {
@@ -25,7 +29,7 @@
     height: 84vh;
     overflow-y: scroll;
     direction: rtl;
-    padding: 10px 0px 10px 5px;
+    padding: 0 0 10px 5px;
 }
 
 .mail .preview-bottom span {

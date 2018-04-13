@@ -3,20 +3,21 @@ export default {
     template: `
     <section class="mail-filter">
         <form>
-            <label class="label">
-                Filter e-mails by name:
-                <input type="search" v-model="filter.byName" @input.prevent="setFilter" class="input is-rounded">
-            </label>
-            <label class="label">
-                filter by:
-                <div class="select is-rounded">
+            <div class="flex space-between">
+                <label class="label">Filter by name:</label>
+                <input type="search" v-model="filter.byName" @input.prevent="setFilter"
+                    class="input is-rounded ">
+            </div>
+            <div class="flex space-between">
+                <label class="label">Show:</label>
+                <div class="select is-rounded is-small">
                     <select class="select is-rounded" v-model="filter.byRead" @change="setFilter">
                         <option value="all">All</option>
                         <option value="unread">Unread</option>
                         <option value="read">Read</option>
                     </select>
                 </div>
-            </label>
+            </div>
         </form>
     </section>
     `,

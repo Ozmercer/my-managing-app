@@ -25,6 +25,10 @@
     position: absolute;
 }
 
+.center {
+    margin: 0 auto;
+}
+
 /*---flex---*/
 
 .flex {

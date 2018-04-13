@@ -9,34 +9,44 @@ export default {
     <section class="mail flex no-wrap container1">
         <section class="navbar flex column">
             <div class="nav-head">
-                <h1>Welcome To My Mail</h1>
                 <mail-filter :mails="mails" @filter="setFilter"></mail-filter>
                 <!-- <mail-sort @sorted="sortBy"></mail-sort> -->
-                <div class="label">
+                <div class="label flex space-between">
                     Sort by:
-                    <button @click.stop="sortBy('subject')">Subject</button>
-                    <button @click.stop="sortBy('date')">Date</button>
+                    <div class="btns">
+                        <button class="button is-outlined is-small is-rounded" 
+                        @click.stop="sortBy('subject')">
+                        Subject
+                    </button>
+                        <button class="button is-small is-rounded" @click.stop="sortBy('date')">
+                            Date
+                        </button>
+                    </div>
                 </div>
-                <button @click="composeMail()">Compose new mail</button>
+                <button class="button is-rounded is-danger center" @click="composeMail()">
+                    Compose new mail
+                </button>
             </div>
             <ul >
                 <li v-for="mail in mailsToShow" @click="openMail(mail)" 
-                class="mail" :class="{unread: mail.unread}">
-                <div class="preview-top flex space-between">
-                    <span class="subject">{{mail.subject}}</span>
-                    <span class="date">{{mail.date | timeAgo}}</span>
-                </div>
-                <div class="preview-bottom flex space-between">
-                    <span class="content">{{mail.content | substr20}}</span>
-                    <a class="delete" @click.stop="deleteMail(mail)"></a>
-                </div>
-            </li>
-        </ul>
-    </section>
-    <section class="details">
-        <div class="default-area" v-if="!currMail && !compose">
-            <h2>You have <b>{{totUnread}}</b> unread messeges</h2>
-            <h2>You have a total of <b>{{mails.length}}</b> messegaes</h2>
+                    class="mail" :class="{unread: mail.unread}">
+                    <div class="preview-top flex space-between">
+                        <span class="subject">{{mail.subject}}</span>
+                        <span class="date">{{mail.date | timeAgo}}</span>
+                    </div>
+                    <div class="preview-bottom flex space-between">
+                        <span class="content">{{mail.content | substr20}}</span>
+                        <a class="delete" @click.stop="deleteMail(mail)"></a>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section class="details">
+            <div class="default-area" v-if="!currMail && !compose">
+                <h1>Welcome To My Mail</h1>
+                <h2>You have <b>{{totUnread}}</b> unread messeges</h2>
+                <h2>You have a total of <b>{{mails.length}}</b> messegaes</h2>
+                <progress class="progress" :value="unreadMails" max="100"></progress>
             </div>
             <mail-compose v-if="compose" :subject="newSubject" @close="closeCompose"></mail-compose>
             <mail-details :mail="currMail" v-if="currMail" @markAsUnread="markAsUnread"
@@ -75,6 +85,10 @@ export default {
                         (this.filter.byRead === 'all' || mail.unread === this.filter.byRead))
             })
             return toShow
+        },
+        unreadMails() {
+            var percent = this.totUnread / this.mails.length * 100
+            return parseInt(percent) || 0
         }
     },
     methods: {
