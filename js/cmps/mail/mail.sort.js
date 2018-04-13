@@ -3,13 +3,15 @@ export default {
     <section class="sort">
         <label class="label">
         Sort by: 
-        <div class="select is-rounded">
+                <button @click="sortBy('subject')" v-model="sortType">Subject</button>
+                <button @click="sortBy('date')" v-model="sortType">Date</button>
+        <!-- <div class="select is-rounded">
             <select v-model="sortType" @change="sortBy()">
                 <option value="Sort by"></option>
                 <option value="subject">subject</option>
                 <option value="date">Date</option>
             </select>
-        </div>
+        </div> -->
         </label>    
     </section>
     `,

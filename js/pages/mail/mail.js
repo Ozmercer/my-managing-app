@@ -6,28 +6,41 @@ import mailSort from '../../cmps/mail/mail.sort.js'
 
 export default {
     template: `
-    <section class="mail flex no-wrap">
+    <section class="mail flex no-wrap container1">
         <section class="navbar flex column">
             <div class="nav-head">
                 <h1>Welcome To My Mail</h1>
-                <h2>You have {{totUnread}} unread messeges</h2>
                 <mail-filter :mails="mails" @filter="setFilter"></mail-filter>
-                <mail-sort @sorted="sortBy"></mail-sort>
+                <!-- <mail-sort @sorted="sortBy"></mail-sort> -->
+                <div class="label">
+                    Sort by:
+                    <button @click.stop="sortBy('subject')">Subject</button>
+                    <button @click.stop="sortBy('date')">Date</button>
+                </div>
                 <button @click="composeMail()">Compose new mail</button>
             </div>
             <ul >
-                <li v-for="mail in mailsToShow" @click="openMail(mail)" class="mail flex space-between" :class="{unread: mail.unread}">
+                <li v-for="mail in mailsToShow" @click="openMail(mail)" 
+                class="mail" :class="{unread: mail.unread}">
+                <div class="preview-top flex space-between">
                     <span class="subject">{{mail.subject}}</span>
-                    <span class="content">{{mail.content | substr20}}</span>
                     <span class="date">{{mail.date | timeAgo}}</span>
+                </div>
+                <div class="preview-bottom flex space-between">
+                    <span class="content">{{mail.content | substr20}}</span>
                     <a class="delete" @click.stop="deleteMail(mail)"></a>
-                </li>
-            </ul>
-        </section>
-        <section class="details">
-            <mail-compose v-if="compose" :subject="newSubject" ></mail-compose>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <section class="details">
+        <div class="default-area" v-if="!currMail && !compose">
+            <h2>You have <b>{{totUnread}}</b> unread messeges</h2>
+            <h2>You have a total of <b>{{mails.length}}</b> messegaes</h2>
+            </div>
+            <mail-compose v-if="compose" :subject="newSubject" @close="closeCompose"></mail-compose>
             <mail-details :mail="currMail" v-if="currMail" @markAsUnread="markAsUnread"
-                @close-details="closeDetails()" @reply="reply"></mail-details>
+                @close="closeDetails()" @reply="reply"></mail-details>
         </section>
     </section>
     `,
@@ -53,7 +66,7 @@ export default {
             })
             this.totUnread = count;
                 console.log(this.totUnread);
-        })
+            })
     },
     computed: {
         mailsToShow() {
@@ -81,6 +94,9 @@ export default {
         },
         closeDetails() {
             this.currMail = null;
+        },
+        closeCompose() {
+            this.compose = false;
         },
         reply(subject) {
             this.newSubject = 'Re: ' + subject;

@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         close() {
-            this.$emit('close-details')
+            this.$emit('close')
         },
         reply() {
             this.$emit('reply', this.mail.subject)

@@ -1,19 +1,42 @@
+/* -----mail general----- */
+.mail {
+    background-color: #d3d7ff;
+}
+
 .mail.unread > button {
     display: none
 }
 
-.mail {
-    background-color: aqua;
+.container1 {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-.mail-compose {
-    background-color: antiquewhite
-}
-.mail-details {
-    background-color: beige;
-    padding: 10px
+/* ----navbar---- */
+
+.nav-head {
+    direction: ltr;
 }
 
+.mail .navbar {
+    left: 0;
+    flex-grow: 2;
+    height: 84vh;
+    overflow-y: scroll;
+    direction: rtl;
+    padding: 10px 0px 10px 5px;
+}
+
+.mail .preview-bottom span {
+    margin-bottom: 0 !important;
+}
+
+/* ----list---- */
+
+.mail ul {
+    direction: ltr;
+}
 .mail li {
     border: 1px solid black;
     border-bottom: none;
@@ -21,19 +44,21 @@
     max-width: 800px;
     overflow: hidden
 }
+
 .mail ul:last-child {
     border-bottom: 1px solid black
 }
 .mail li.unread {
     font-weight: 700;
 }
-.mail ul {
-    direction: ltr;
+.mail span.subject {
+    padding-bottom: 10px;
 }
-.container1 {
-    max-width: 1060px;
-    margin: 0 auto;
-    text-align: center;
+.mail span.content {
+    color: #666666
+}
+.mail span.date {
+    margin-left: 10px
 }
 
 .mail input {
@@ -43,23 +68,24 @@ select {
     margin: 0
 }
 
+/* ----detail section---- */
+.mail-compose {
+    background-color: #b5bbff;
+    padding: 10px
+}
+.mail-details {
+    background-color: #b5bbff;
+    padding: 10px;
+    height: 100%;
+}
+
 .mail .mail-compose {
     text-align: left
 }
 
-.mail .navbar {
-    left: 0;
-    width: 40%;
-    height: 80vh;
-    overflow-y: scroll;
-    direction: rtl;
-}
-
 .mail .details {
-    width: 60%;
+    flex-grow: 3;
     text-align: left;
+    width: 0%
 }
 
-.nav-head {
-    direction: ltr;
-}

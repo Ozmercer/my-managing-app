@@ -2,7 +2,6 @@ export default {
     props: ['mails'],
     template: `
     <section class="mail-filter">
-        <h1>filter</h1>
         <form>
             <label class="label">
                 Filter e-mails by name:

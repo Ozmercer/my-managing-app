@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="flex column">
         <nav class="flex space-between">
             <h1>My Managing App</h1>    
             <router-link exact to='/'>Home</router-link>  |
@@ -18,10 +18,10 @@
         </nav>
         
         <router-view></router-view>
+        <footer>
+            <p>© MMA - Making The World A Better Place</p>
+        </footer>
     </div>
-    <footer>
-        <p>© MMA - Making The World A Better Place</p>
-    </footer>
     
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGwWv55BDevIEc1ma8F_nPI7FWASmGxWw&libraries=places"></script>
     <script src="lib/moment.js"></script>
@@ -30,3 +30,4 @@
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
+

@@ -21,6 +21,9 @@
     right: 0;
     text-align: right;
 }
+.absolute {
+    position: absolute;
+}
 
 /*---flex---*/
 
