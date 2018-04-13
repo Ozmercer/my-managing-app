@@ -49,11 +49,15 @@ function updateMail(mail) {
 }
 
 function sortBySubject() {
+    var isAscending = '▼';
     var sorted = mailsDB.slice()
     sorted.sort(compareSubject);
-    if (JSON.stringify(sorted) === JSON.stringify(mailsDB)) sorted.reverse();
+    if (JSON.stringify(sorted) === JSON.stringify(mailsDB)) {
+        sorted.reverse();
+        isAscending = '▲';
+    } 
     mailsDB = sorted;
-    return mailsDB
+    return {mailsDB, isAscending}
 }
 function compareSubject(a,b) {
     if (a.subject > b.subject) return 1;
@@ -61,12 +65,15 @@ function compareSubject(a,b) {
     else return 0;
 }
 function sortByDate() {
+    var isAscending = '▼';
     var sorted = mailsDB.slice()
     sorted.sort(compareDate);
-    if (JSON.stringify(sorted) === JSON.stringify(mailsDB)) sorted.reverse();
-    mailsDB = sorted
-    
-    return mailsDB
+    if (JSON.stringify(sorted) === JSON.stringify(mailsDB)) {
+        sorted.reverse();
+        isAscending = '▲';
+    } 
+    mailsDB = sorted;
+    return {mailsDB, isAscending}
 }
 function compareDate(a,b) {
     return b.date-a.date;

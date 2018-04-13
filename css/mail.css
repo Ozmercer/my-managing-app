@@ -4,7 +4,7 @@
 }
 
 .mail.unread > button {
-    display: none
+    display: none;
 }
 
 .container1 {
@@ -26,10 +26,10 @@
 .mail .navbar {
     left: 0;
     flex-grow: 2;
-    height: 84vh;
+    height: 82vh;
     overflow-y: scroll;
     direction: rtl;
-    padding: 0 0 10px 5px;
+    padding: 0;
 }
 
 .mail .preview-bottom span {
@@ -48,12 +48,17 @@
     max-width: 800px;
     overflow: hidden
 }
+.mail hr {
+    margin: 1rem 0
+}
 
 .mail ul:last-child {
     border-bottom: 1px solid black
 }
 .mail li.unread {
     font-weight: 700;
+    background-color: #d6d8e7
+    
 }
 .mail span.subject {
     padding-bottom: 10px;
@@ -75,12 +80,19 @@ select {
 /* ----detail section---- */
 .mail-compose {
     background-color: #b5bbff;
-    padding: 10px
+    padding: 10px;
+    height: 100%;
 }
+
+.compose button.button {
+    margin: 5px
+}
+
 .mail-details {
     background-color: #b5bbff;
     padding: 10px;
-    height: 100%;
+    height: 108%;
+    overflow: scroll;
 }
 
 .mail .mail-compose {
@@ -90,6 +102,9 @@ select {
 .mail .details {
     flex-grow: 3;
     text-align: left;
-    width: 0%
+    width: 0%;
+    padding: 10px;
+    height: 80vh;
+    
 }
 

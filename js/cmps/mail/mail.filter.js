@@ -6,7 +6,7 @@ export default {
             <div class="flex space-between">
                 <label class="label">Filter by name:</label>
                 <input type="search" v-model="filter.byName" @input.prevent="setFilter"
-                    class="input is-rounded ">
+                    class="input is-rounded is-small">
             </div>
             <div class="flex space-between">
                 <label class="label">Show:</label>
