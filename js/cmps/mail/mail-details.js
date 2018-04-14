@@ -16,7 +16,8 @@ export default {
             </div>
         </article>
         <button class="button is-rounded" @click="reply">Reply</button>
-        <button class="button is-rounded" @click.stop="markAsUnread(mail)">Mark as unread</button>
+        <button class="button is-rounded" @click.stop="markAsUnread(mail)" 
+        :disabled="mail.unread">Mark as unread</button>
     </section>
     `,
     computed: {

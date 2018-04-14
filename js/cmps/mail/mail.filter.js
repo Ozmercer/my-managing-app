@@ -3,7 +3,7 @@ export default {
     template: `
     <section class="mail-filter">
         <form>
-            <div class="flex space-between">
+            <div class="flex space-between name-filter">
                 <label class="label">Filter by name:</label>
                 <input type="search" v-model="filter.byName" @input.prevent="setFilter"
                     class="input is-rounded is-small">

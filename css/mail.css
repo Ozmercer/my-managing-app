@@ -56,6 +56,13 @@
     margin-bottom: 0 !important;
 }
 
+.mail .name-filter {
+    text-align: left
+}
+.mail .name-filter input {
+    width: 50%
+}
+
 /* ----list---- */
 
 .mail ul {
@@ -145,6 +152,16 @@ select {
     margin: 0 auto;
 }
 
+.details img {
+    height: 60px;
+}
+.sorry {
+    width: 70%;
+    margin: 0 auto;
+    text-align: center
+}
+
+/* ----responsiveness--- */
 .resp-hide {
     display: none;
 }

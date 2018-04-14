@@ -10,7 +10,6 @@ export default {
         <section class="navbar flex column">
             <div class="nav-head">
                 <img src="../../../img/mma-logo.png" alt="">
-                <!-- <h3 class="subtitle">My Managing App</h3> -->
                 <hr>
                 <mail-filter :mails="mails" @filter="setFilter"></mail-filter>
                 <div class="label flex space-between">
@@ -57,6 +56,14 @@ export default {
                 <div class="prog">
                     <p class="percent">{{unreadMails}}% unread</p>
                     <progress class="progress is-success" :value="unreadMails" max="100"></progress>
+                </div>
+                <hr>
+                <div class="sorry">
+                    <p>SORRY!</p>
+                    <p>Due to technical difficulties, you can currently only recieve E-Mails 
+                        from yourself
+                    </p>
+                    <img src="../../img/construction.png" alt="Sorry" class="construction">
                 </div>
             </div>
             <mail-compose v-if="compose" :subject="newSubject" @close="closeCompose"></mail-compose>
