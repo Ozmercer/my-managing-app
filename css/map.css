@@ -59,6 +59,7 @@
 .map-app {
     background-color: #d5ffd5;
     height: 80vh;
+    max-width: 1060px;
 }
 .place-preview li {
     border: 1px solid black;
