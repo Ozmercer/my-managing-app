@@ -59,7 +59,7 @@ export default {
                 </div>
                 <hr>
                 <div class="sorry">
-                    <p><strong>SORRY!<strong></p>
+                    <p><strong>SORRY!</strong></p>
                     <p>Due to technical difficulties, you can currently only recieve E-Mails 
                         from yourself
                     </p>

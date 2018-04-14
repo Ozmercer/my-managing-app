@@ -5,7 +5,8 @@
 .places-list{
     background: #eefeee;
     width: 100%;
-    padding: 20px
+    padding: 20px;
+    direction: ltr
 }
 .place-preview {
     flex-direction: column;
@@ -16,6 +17,7 @@
 
 .places-details{
     margin: 20px;
+    direction: ltr
 }
 .places-details img{
     max-width: 150px;
@@ -26,10 +28,11 @@
 }
 
 .info-container {
-    flex-grow: 2;
+    flex-grow: 1;
     padding: 0;
     height: 100%;
-    overflow: scroll
+    overflow: scroll;
+    direction: rtl
 }
 .map-canvas {
     position: relative;
