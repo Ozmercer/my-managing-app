@@ -19,27 +19,29 @@ export default {
             <div class="edit-tags" >
                 tags:
                     <span v-for="(tag,idx) in place.tags">
-                        <!-- <button @click="delete-photo">X</button> -->
-                        <span>{{tag}} </span>
+                        <span>{{tag}} <button @click="removeTag(idx)" type="button">x</button> </span>
                     </span>
-                    <div>
+                    <div v-if="addingTag">
                         <input type="text" v-model="tag" placeholder="add tag"/>
-                        <button @click.stop="addTag">add tag</button>
+                        <button @click="addTag" type="button">add tag</button>
                      </div>
+                     <button @click="addingTag = !addingTag" v-if="!addingTag" type="button" >add tag</button>
+
             </div>
             <div class="edit-photos" v-if="place.photos.length"  v-for="(photo,idx) in place.photos">
-                    <!-- <button @click="delete-photo">X</button> -->
+                    <button type="button" @click="deletePhoto(idx)">Delete photo</button>
                     <img :src="photo" alt=""/>
             </div>
             <div>
                 <label v-if="addPhoto">
-                    <input type="text" v-model="photoUrl" required
+                    <input type="text" v-model="photoUrl" 
                           placeholder="Add photo url">
-                    <button  @click="addPhotoUrl" type="text" >Add photo</button>      
+                    <button  @click="addPhotoUrl" type="button" >Add photo</button>      
                 </label>
-                <button v-if="!addPhoto" @click="addPhoto = !addPhoto" >Add</button>
+                <button v-if="!addPhoto" @click="addPhoto = !addPhoto"  type="button" >Add photo</button>
             </div>
 
+                <button class=""  @click="cancel" type="button">Cancel</button>
                 <button class="" type="submit">Save</button>
         </form>
     `,
@@ -56,7 +58,8 @@ export default {
             addPhoto: false,
             isUpdate: false,
             tag: null,
-            photoUrl: null
+            photoUrl: null,
+            addingTag:false
         }
     },
     created() {
@@ -68,21 +71,31 @@ export default {
     methods: {
         savePlace() {
             console.log('placeID', this.place.placeId)
-            mapService.addPlace(this.place,this.place.placeId)
-                .then(place =>{
+            mapService.addPlace(this.place, this.place.placeId)
+                .then(place => {
                     this.$router.push('/map')
                     mapService.triggerMarker()
-                } 
-            )
+                })
         },
         addPhotoUrl() {
-            this.addPhoto = !addPhoto;
-            this.place.photos.push(this.tag)
-            this.tag = null;
+            this.addPhoto = !this.addPhoto;
+            this.place.photos.push(this.photoUrl)
+            this.photoUrl = null;
+        },
+        deletePhoto(idx){
+            this.place.photos.splice(idx,1)
         },
         addTag() {
             this.place.tags.push(this.tag)
             this.tag = null;
+            this.addingTag = false;
+        },
+        removeTag(idx){
+            this.place.tags.splice(idx,1)
+        },
+        cancel() {
+            this.$router.push('/map')
+            if( !this.isUpdate) mapService.removeMarker()
         }
 
     },

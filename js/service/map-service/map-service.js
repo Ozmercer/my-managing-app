@@ -111,7 +111,8 @@ function repositionMap(loc) {
 function setPrevICon() {
     if (prevMarker) {
         prevMarker.setIcon(prevMarker.defaultIcon);
-        console.log('prevMarker', prevMarker)
+        prevMarker.infoWindow.close()
+        // console.log('prevMarker', prevMarker)
     }
 }
 
@@ -122,8 +123,7 @@ function addMarker(place) {
         position: place.loc,
         map: map,
         animation: google.maps.Animation.DROP,
-        title: '',
-        // placeId: (place.placeId) ? place.placeId : newPlace.id
+        title: place.name, 
     });
     var lat = (place.placeId) ? place.loc.lat : newPlace.loc.lat
     var lng = (place.placeId) ? place.loc.lag : newPlace.loc.lng
@@ -132,8 +132,9 @@ function addMarker(place) {
     if (place.placeId) {
         markers.push(marker);
     } else {
-        currMarker.setMap(null);
-        currMarker = marker;    
+        if(currMarker) currMarker.setMap(null);
+        currMarker = marker;  
+        triggerMarker()  
     }
     marker.addListener('click', () => {
             var content = `
@@ -149,9 +150,9 @@ function addMarker(place) {
                     </p>
                 </div>
             `
-        var infoWindow = new google.maps.InfoWindow()
-        infoWindow.setContent(content);
-        infoWindow.open(map, marker);
+        marker.infoWindow = new google.maps.InfoWindow()
+        marker.infoWindow.setContent(content);
+        marker.infoWindow.open(map, marker);
         setPrevICon();
         marker.defaultIcon = marker.getIcon();
         marker.setIcon('https://lh3.ggpht.com/Tr5sntMif9qOPrKV_UVl7K8A_V3xQDgA7Sw_qweLUFlg76d_vGFA7q1xIKZ6IcmeGqg=s64');
@@ -171,9 +172,16 @@ function triggerMarker(idx) {
     if (idx) {
         triggerMaker = markers[idx]
     } else {
-        triggerMaker = markers[(length - 1)]
+        // triggerMaker = marker;
     }
+    console.log('markers',markers)
+    console.log('marker len',markers[length-1])
+    console.log('marker[0]',markers[0])
+
     new google.maps.event.trigger(triggerMaker, 'click');
+}
+function removeMarker(){
+    currMarker.setMap(null)
 }
 
 
@@ -255,6 +263,7 @@ export default {
     addPlace,
     triggerMarker,
     getNewPlace,
+    removeMarker,
 
 
 }

@@ -66,3 +66,7 @@
 .place-preview .delete {
     float: right;
 }
+
+.places-edit img{
+    max-width: 150px;
+}
