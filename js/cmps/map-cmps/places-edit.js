@@ -4,45 +4,45 @@ import eventBus, { GOOGLE_AUTOCOMPLETE } from '../../service/eventBus.js'
 export default {
     template: `
         <form @submit.prevent="savePlace" class="places-edit">
-            <div class="">
+            <div class="block">
                 <label class="label">
                     Name: 
-                    <input type="text" v-model="place.name" class="input-name">   
+                    <input   type="text" v-model="place.name" class="input-name input">   
                 </label>
             </div>  
-            <div>
+            <div class="block">
                 <label class="label">
                     Description: 
-                    <textarea type="text" class="input-desc"  v-model="place.description" placeholder=" Add your here"/>
+                    <textarea type="text" class="input-desc input"  v-model="place.description" placeholder=" Add your here"/>
                 </label>
             </div>
-            <div class="edit-tags" >
+            <div class="edit-tags block" >
                 tags:
                     <span v-for="(tag,idx) in place.tags">
-                        <span>{{tag}} <button @click="removeTag(idx)" type="button">x</button> </span>
+                        <span class="tag"><b>{{tag}}</b> <button @click="removeTag(idx)" class="delete" type="button">x</button> </span>
                     </span>
-                    <div v-if="addingTag">
-                        <input type="text" v-model="tag" placeholder="add tag"/>
-                        <button @click="addTag" type="button">add tag</button>
+                    <div v-if="addingTag ">
+                        <input class="input" type="text" v-model="tag" placeholder="add tag"/>
+                        <button class="button is-success" @click="addTag" type="button" > Add tag </button>
                      </div>
-                     <button @click="addingTag = !addingTag" v-if="!addingTag" type="button" >add tag</button>
+                     <button class="button  is-success" @click="addingTag = !addingTag" v-if="!addingTag" type="button" >Add tag</button>
 
             </div>
             <div class="edit-photos" v-if="place.photos.length"  v-for="(photo,idx) in place.photos">
-                    <button type="button" @click="deletePhoto(idx)">Delete photo</button>
+                    <button type="button" @click="deletePhoto(idx)" class="delete" >Delete photo</button>
                     <img :src="photo" alt=""/>
             </div>
-            <div>
+            <div class="block">
                 <label v-if="addPhoto">
-                    <input type="text" v-model="photoUrl" 
+                    <input class="input" type="text" v-model="photoUrl" 
                           placeholder="Add photo url">
-                    <button  @click="addPhotoUrl" type="button" >Add photo</button>      
+                    <button class="button  is-success"  @click="addPhotoUrl" type="button" >Add photo</button>      
                 </label>
-                <button v-if="!addPhoto" @click="addPhoto = !addPhoto"  type="button" >Add photo</button>
+                <button class="button  is-success" v-if="!addPhoto" @click="addPhoto = !addPhoto"  type="button" >Add photo</button>
             </div>
 
-                <button class=""  @click="cancel" type="button">Cancel</button>
-                <button class="" type="submit">Save</button>
+                <button class="button is-danger"  @click="cancel" type="button">Cancel</button>
+                <button class="button is-success" type="submit">Save</button>
         </form>
     `,
     data() {
@@ -70,7 +70,6 @@ export default {
     },
     methods: {
         savePlace() {
-            console.log('placeID', this.place.placeId)
             mapService.addPlace(this.place, this.place.placeId)
                 .then(place => {
                     this.$router.push('/map')
@@ -109,8 +108,6 @@ export default {
                     mapService.getById(id)
                         .then(place => {
                             this.place = place;
-                            console.log('here', this.place)
-
                         })
                 }
             }

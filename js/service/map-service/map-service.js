@@ -65,7 +65,6 @@ function init(domElMap, domElMapSearchInput) {
 }
 
 function initMap(lat = 32.0749831, lng = 34.9120554, domEl) {
-    console.log('InitMap');
     const gmapApi = new GoogleMapsApi();
     return new Promise((resolve, reject) => {
         resolve(gmapApi.load().then(() => {
@@ -81,14 +80,13 @@ function initMap(lat = 32.0749831, lng = 34.9120554, domEl) {
 
 
 function getPlaces() {
-    console.log('get')
     var placesDB;
     return storageService.load(PLACES_KEY)
         .then((places) => {
             if (!places) {
                 placesDB = placesItems;
                 storageService.store(PLACES_KEY, placesDB)
-                    .then(() => console.log('success'))
+                    .then(() =>  console.log('success'))
             } else {
                 placesDB = places;
             }
@@ -104,7 +102,6 @@ function setPrevICon() {
     if (prevMarker) {
         prevMarker.setIcon(prevMarker.defaultIcon);
         prevMarker.infoWindow.close()
-        // console.log('prevMarker', prevMarker)
     }
 }
 
@@ -120,7 +117,6 @@ function addMarker(place) {
     var lat = (place.placeId) ? place.loc.lat : newPlace.loc.lat
     var lng = (place.placeId) ? place.loc.lag : newPlace.loc.lng
     var name = (place.placeId) ? place.name : newPlace.name
-    console.log('place', marker.placeId)
     if (place.placeId) {
         markers.push(marker);
     } else {
@@ -155,7 +151,6 @@ function addMarker(place) {
 
 function addMarkers(placesDB) {
     placesDB.forEach(place => {
-        console.log('place', place)
         addMarker(place)
     });
 }
@@ -163,15 +158,11 @@ function addMarkers(placesDB) {
 function triggerMarker(idx) {
     var triggerMaker;
     if (idx === 0 || idx ) {       
-        console.log('markers[idx]',markers[0])
         triggerMaker = markers[idx]
     } else {
          triggerMaker = marker;
     }
-    console.log('markers', markers)
-    console.log('marker len', markers[length - 1])
-    console.log('marker[0]', markers[0])
-
+ 
     new google.maps.event.trigger(triggerMaker, 'click');
 }
 function removeMarker() {
@@ -183,7 +174,6 @@ function autocomplete() {
     var input = document.querySelector('#map-search-input');
     var autocomplete = new google.maps.places.Autocomplete(input);
     google.maps.event.addListener(autocomplete, 'place_changed', () => {
-        console.log('autocomplete', autocomplete.getPlace().formatted_address)
         newPlace.loc.lat = autocomplete.getPlace().geometry.location.lat()
         newPlace.loc.lng = autocomplete.getPlace().geometry.location.lng()
         newPlace.name = autocomplete.getPlace().formatted_address;
@@ -237,7 +227,6 @@ function addPlace(place, placeId) {
                 currMarker.setMap(null);
                 addMarker(place)
             }
-            console.log("!!!!!!!!!!!!!!!!!!!", place)
             storageService.store(PLACES_KEY, places)
             return place
         })
