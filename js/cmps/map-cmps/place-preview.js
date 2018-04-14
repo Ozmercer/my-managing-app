@@ -1,9 +1,11 @@
+import placeFilter from './places-filter.js'
 
 export default {
     props: ['places'],
     template: `
         <section class="place-preview ">
             <h1 class="title is-3">My places</h1>
+            <place-filter ></place-filter>
           <ul>
               <li v-for= "(place,idx) in places" @click="emitSelected(place.placeId,idx)">
                   {{place.name}}
@@ -31,6 +33,6 @@ export default {
     },
 
     components: {
-
+        placeFilter
     }
 }

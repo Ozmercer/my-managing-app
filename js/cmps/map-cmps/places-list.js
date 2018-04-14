@@ -1,6 +1,7 @@
 import mapService from '../../service/map-service/map-service.js'
 import placePreview from './place-preview.js';
-import placeDetails from './places-details.js'
+import placeDetails from './places-details.js';
+import eventBus from "../../service/eventBus.js";
 
 
 export default {
