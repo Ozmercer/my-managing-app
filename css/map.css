@@ -5,8 +5,12 @@
 .places-list{
     background: #eefeee;
     width: 100%;
-    padding: 20px;
+    padding: 10px;
     direction: ltr
+}
+.place-head {
+    width: 100%;
+    text-align: center
 }
 .place-preview {
     flex-direction: column;
@@ -23,16 +27,21 @@
     max-width: 150px;
 }
 
+.place-filter .filter-btn {
+    margin: 0 0 10px 70%;
+}
+
 .map section{
     width: fit-content;
 }
 
 .info-container {
-    flex-grow: 1;
+    flex-grow: 2;
     padding: 0;
     height: 100%;
     overflow: scroll;
-    direction: rtl
+    direction: rtl;
+    width: 0;
 }
 .map-canvas {
     position: relative;

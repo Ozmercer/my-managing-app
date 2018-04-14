@@ -4,8 +4,10 @@ export default {
     props: ['places'],
     template: `
         <section class="place-preview flex align-center">
-            <img src="../../../img/mma-logo.png" alt="" class="logo-img">
-            <hr>
+            <div class="place-head">
+                <img src="../../../img/mma-logo.png" alt="" class="logo-img">
+                <hr>
+            </div>
             <div class="pages">
                 <h1 class="title is-3">My places</h1>
                 <place-filter></place-filter>
