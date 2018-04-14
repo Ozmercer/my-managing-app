@@ -5,18 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Managing App</title>
     <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <div id="app" class="flex column">
-        <nav class="flex space-between">
-            <h1>My Managing App</h1>    
-            <router-link exact to='/'>Home</router-link>  |
-            <router-link to='/mail'>Mail</router-link> |
-            <router-link to='/map'>Map</router-link> |
-            <router-link to='/note'>Note</router-link> |
-        </nav>
+        <header class="flex align-center">
+            <nav class="nav flex space-between container1">
+                <div class="nav-left">
+                    <h1 class="logo">
+                        <span class="my resp-hide">My</span> 
+                        <span class="managing resp-hide">Managing</span> 
+                        <span class="app resp-hide">App</span> 
+                        <span class="my resp-show">M</span> 
+                        <span class="managing resp-show">M</span> 
+                        <span class="app resp-show">A</span> 
+                    </h1>    
+                </div>
+                <div class="nav-right">
+                    <router-link exact to='/'>Home</router-link>  |
+                    <router-link to='/mail'>Mail</router-link> |
+                    <router-link to='/map'>Map</router-link> 
+                </div>
+            </nav>
+        </header>
         
         <router-view></router-view>
         <footer>

@@ -5,19 +5,29 @@ export default {
     template: `
     <section class="mail-compose">
         <div class="compose-top flex space-between">
-            <h1>Compose mail</h1>
+            <h1 class="subtitle">Compose mail</h1>
             <button class="delete" @click="close"></button>
         </div>
         <form >
-            <label>
-                <input class="input" type="text" placeholder="Subject..." v-model="newMail.subject"><br>
-                <input class="input" type="text" value="TO: myself" disabled>
-                <textarea class="textarea" rows="5" placeholder="Type mail..." v-model="newMail.content">
-                </textarea>   
-            </label>
-            <div class="right">
-                <button @click.prevent="sendMail()" class="button is-success is-large">Send</button>
+            <div class="field">
+                <label class="label">
+                    <input class="input" type="text" placeholder="Subject..." v-model="newMail.subject"><br>
+                </label>
             </div>
+            <div class="field">
+                <label class="label">
+                    <input class="input" type="text" value="TO: myself" disabled>
+                </label>
+            </div>
+            <div class="field">
+                <p class="control">
+                    <textarea class="textarea" rows="5" placeholder="Type mail..." v-model="newMail.content">
+                    </textarea>   
+                </p>
+            </div>
+                <div class="right">
+                    <button @click.prevent="sendMail()" class="button is-success is-large">Send</button>
+                </div>
         </form>
     </section>
     `,

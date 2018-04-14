@@ -9,7 +9,8 @@ export default {
     <section class="mail flex no-wrap container1">
         <section class="navbar flex column">
             <div class="nav-head">
-                <h3 class="subtitle">My Managing App</h3>
+                <img src="../../../img/mma-logo.png" alt="">
+                <!-- <h3 class="subtitle">My Managing App</h3> -->
                 <hr>
                 <mail-filter :mails="mails" @filter="setFilter"></mail-filter>
                 <div class="label flex space-between">
@@ -32,7 +33,7 @@ export default {
                 <li v-for="mail in mailsToShow" @click="openMail(mail)" 
                     class="mail" :class="{unread: mail.unread}">
                     <div class="preview-top flex space-between">
-                        <span class="subject">{{mail.subject}}</span>
+                        <span class="subject">{{mail.subject | substr20}}</span>
                         <span class="date">{{mail.date | timeAgo}}</span>
                     </div>
                     <div class="preview-bottom flex space-between">
@@ -47,13 +48,16 @@ export default {
                 </li>
             </ul>
         </section>
-        <section class="details">
+        <section class="details resp-hide">
             <div class="default-area" v-if="!currMail && !compose">
                 <h1 class="title is-2">Welcome To My Mail</h1>
                 <p></p>
                 <h2 class="subtitle">You have <b>{{totUnread}}</b> unread messeges</h2>
-                <h2 class="subtitle">You have a total of <b>{{mails.length}}</b> messegaes</h2>
-                <progress class="progress" :value="unreadMails" max="100"></progress>
+                <h2 class="subtitle">Out of a total of <b>{{mails.length}}</b> messegaes</h2>
+                <div class="prog">
+                    <p class="percent">{{unreadMails}}% unread</p>
+                    <progress class="progress is-success" :value="unreadMails" max="100"></progress>
+                </div>
             </div>
             <mail-compose v-if="compose" :subject="newSubject" @close="closeCompose"></mail-compose>
             <mail-details :mail="currMail" v-if="currMail" @markAsUnread="markAsUnread"
@@ -90,8 +94,8 @@ export default {
     computed: {
         mailsToShow() {
             var toShow = this.mails.filter(mail => {
-                return ((mail.subject.includes(this.filter.byName) ||
-                         mail.content.includes(this.filter.byName)) &&
+                return ((mail.subject.toLowerCase().includes(this.filter.byName) ||
+                         mail.content.toLowerCase().includes(this.filter.byName)) &&
                         (this.filter.byRead === 'all' || mail.unread === this.filter.byRead))
             })
             return toShow
@@ -110,6 +114,7 @@ export default {
             this.currMail = mail
             mailService.updateMail(mail)
             this.compose = false
+            this.showDetails()
         },
         markAsUnread(mail) {
             mail.unread = true;
@@ -123,19 +128,31 @@ export default {
         },
         closeDetails() {
             this.currMail = null;
+            this.hideDetails();
         },
         closeCompose() {
             this.compose = false;
+            this.hideDetails();
         },
         reply(subject) {
             this.newSubject = 'Re: ' + subject;
             this.compose = true;
             this.closeDetails()
+            this.showDetails()
         },
         composeMail() {
             this.compose = true;
             this.closeDetails()
-            this.newSubject = ''
+            this.newSubject = '';
+            this.showDetails()
+        },
+        hideDetails() {
+            document.querySelector('.mail .navbar').classList.remove('resp-hide');
+            document.querySelector('.mail .details').classList.add('resp-hide');
+        },
+        showDetails() {
+            document.querySelector('.mail .navbar').classList.add('resp-hide');
+            document.querySelector('.mail .details').classList.remove('resp-hide');
         },
         deleteMail(mail) {
             mailService.deleteMail(mail)

@@ -13,6 +13,24 @@
     margin: 0 auto;
 }
 
+.logo {
+    font-size: 1.3em;
+    font-weight: 700;
+    background-color: #fff6f4;
+    border-radius: 20px;
+    padding: 0 10px;
+    margin-left: 20px
+}
+.logo .my {
+    color: #003a75
+}
+.logo .managing {
+    color: #00804b
+}
+.logo .app {
+    color: #ec7416
+}
+
 /* ----navbar---- */
 
 .nav-head {
@@ -20,7 +38,9 @@
     background-color: #f4f4ff;
     padding: 10px;
     text-align: center
-    
+}
+.nav-head img {
+    height: 50px;
 }
 
 .mail .navbar {
@@ -49,29 +69,27 @@
     overflow: hidden
 }
 .mail hr {
-    margin: 1rem 0
+    margin: 0.5rem 0 1rem
 }
 
-.mail ul:last-child {
-    border-bottom: 1px solid black
-}
 .mail li.unread {
     font-weight: 700;
-    background-color: #d6d8e7
+    background-color: #c0c2d1
     
 }
 .mail span.subject {
     padding-bottom: 10px;
 }
 .mail span.content {
-    color: #666666
+    color: #666666;
+    font-size: 0.85em
 }
 .mail span.date {
     margin-left: 10px
 }
 
 .mail input {
-    width: 40%;
+    width: 80%;
 }
 select {
     margin: 0
@@ -108,3 +126,34 @@ select {
     
 }
 
+.prog {
+    position: relative;
+    height: 2em;
+    background-color: #f4f5ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 45px;
+    padding: 0 15px;
+}
+
+.prog p {
+    position: absolute;
+    margin: 0 auto;
+}
+
+.resp-hide {
+    display: none;
+}
+.resp-show {
+    display: initial;
+}
+
+@media (min-width: 600px) {
+    .resp-hide {
+        display: initial
+    }
+    .resp-show {
+        display: none;
+    }
+}

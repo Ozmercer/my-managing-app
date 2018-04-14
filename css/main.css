@@ -3,22 +3,29 @@
 @import './mail.css';
 @import './basic.css';
 
-/* body {
-    background-color: azure
-} */
+body {
+    background-color: #f8e4ff
+}
+
+header {
+    width: 100vw;
+    height: 10vh;
+    background-color: #fff6f4
+}
 
 nav {
-    height: 40px;
-    width: 50%;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 auto
+    padding: 0 20px;
+}
+
+#app {
+    padding: 0;
+    height: 90vh;
 }
 
 footer {
     position: fixed;
     bottom: 0;
-    height: 60px;
+    height: 10vh;
     width: 100%;
     display: flex;
     align-items: center;
@@ -28,4 +35,8 @@ footer {
     text-align: center;
     align-content: center;
     padding: 10px
+}
+
+.logo {
+    font-family: 'Arimo', sans-serif;
 }
