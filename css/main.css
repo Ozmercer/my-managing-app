@@ -17,9 +17,17 @@ nav {
     padding: 0 20px;
 }
 
+.logo-img {
+    height: 50px;
+}
+hr {
+    margin: 0.5rem 0 1rem
+}
+
 #app {
     padding: 0;
     height: 90vh;
+    flex-direction: column
 }
 
 footer {

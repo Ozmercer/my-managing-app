@@ -9,7 +9,7 @@ export default {
     <section class="mail flex no-wrap container1">
         <section class="navbar flex column">
             <div class="nav-head">
-                <img src="../../../img/mma-logo.png" alt="">
+                <img src="../../../img/mma-logo.png" alt="" class="logo-img">
                 <hr>
                 <mail-filter :mails="mails" @filter="setFilter"></mail-filter>
                 <div class="label flex space-between">
@@ -49,10 +49,10 @@ export default {
         </section>
         <section class="details resp-hide">
             <div class="default-area" v-if="!currMail && !compose">
-                <h1 class="title is-2">Welcome To My Mail</h1>
+                <h1 class="title is-2">Welcome To My Mail App</h1>
                 <p></p>
-                <h2 class="subtitle">You have <b>{{totUnread}}</b> unread messeges</h2>
-                <h2 class="subtitle">Out of a total of <b>{{mails.length}}</b> messegaes</h2>
+                <h2 class="subtitle">You have <b>{{totUnread}}</b> unread messages</h2>
+                <h2 class="subtitle">Out of a total of <b>{{mails.length}}</b> messages</h2>
                 <div class="prog">
                     <p class="percent">{{unreadMails}}% unread</p>
                     <progress class="progress is-success" :value="unreadMails" max="100"></progress>
