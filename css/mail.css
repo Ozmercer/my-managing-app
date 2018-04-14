@@ -107,7 +107,7 @@ select {
     background-color: #b5bbff;
     padding: 10px;
     height: 100%;
-    overflow: scroll
+    /* overflow: scroll; */
 }
 
 .compose button.button {
@@ -118,7 +118,7 @@ select {
     background-color: #b5bbff;
     padding: 10px;
     height: 100%;
-    overflow: scroll;
+    /* overflow: scroll; */
 }
 
 .mail .mail-compose {
