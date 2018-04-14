@@ -64,21 +64,8 @@ export default {
                     })
             }
         },
-        // place:function () {
-        //     mapService.getById(this.placeId)
-        //         .then(place => {
-        //             //   this.place = place
-
-        //         })
-        // }
+        
 
     }
 }
 
-
-// placeId: 2,
-// name: 'Australia',
-// loc: { lat: -34.397, lng: 150.644 },
-// description: 'place description Australia',
-// photos: [],
-// tag: []
