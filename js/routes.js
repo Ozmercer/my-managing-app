@@ -6,7 +6,7 @@ import placesEdit from "./cmps/map-cmps/places-edit.js";
 
 
 const routes = [
-    {path: '/', component: home},
+    {path: '/', component: mail},
     {path: '/mail', component: mail,
         children: [
             {path: '/mail/details'},
