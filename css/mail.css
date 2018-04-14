@@ -72,6 +72,9 @@
     margin: 0.5rem 0 1rem
 }
 
+.mail ul:last-child {
+    border-bottom: 1px solid black
+}
 .mail li.unread {
     font-weight: 700;
     background-color: #c0c2d1
@@ -109,7 +112,7 @@ select {
 .mail-details {
     background-color: #b5bbff;
     padding: 10px;
-    height: 108%;
+    height: 100%;
     overflow: scroll;
 }
 
