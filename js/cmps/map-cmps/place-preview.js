@@ -31,8 +31,8 @@ export default {
         emitDelete(placeId,idx) {
             this.$emit('delete', {placeId,idx});
         },
-        emitSelected(placeId) {
-            this.$emit('selected', placeId)
+        emitSelected(placeId,idx) {         
+            this.$emit('selected', {placeId,idx})
         },
     },
 

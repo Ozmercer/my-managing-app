@@ -1,7 +1,7 @@
 import mapService from '../../service/map-service/map-service.js'
 import placePreview from './place-preview.js';
 import placeDetails from './places-details.js';
-import eventBus from "../../service/eventBus.js";
+import eventBus, { FILTER_PLACES } from "../../service/eventBus.js"
 
 
 export default {
@@ -16,21 +16,24 @@ export default {
         }
     },
     created() {
-
+        eventBus.$on(FILTER_PLACES, filter => {
+            mapService.query(filter)
+                    .then((places) => this.places = places)
+        })
     },
     methods: {
         deletePlace(ev) {
-            console.log('ev',ev)
-            mapService.deletePlace(ev.id,ev.idx)
+            console.log('ev', ev)
+            mapService.deletePlace(ev.id, ev.idx)
                 .then(() => {
                     mapService.query()
                         .then((places) => this.places = places)
                     this.$router.push('/map')
                 })
         },
-        selected(placeId,idx) {
-            this.$router.push('/map/details/' + placeId);
-            mapService.triggerMarker(idx)
+        selected(ev) {
+            this.$router.push('/map/details/' + ev.placeId);
+            mapService.triggerMarker(ev.idx)
         },
     },
     components: {

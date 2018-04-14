@@ -33,14 +33,6 @@ var placesItems = [
 
     },
     {
-        placeId: 2,
-        name: 'Australia',
-        loc: { lat: -34.397, lng: 150.644 },
-        description: 'place description Australia',
-        photos: ['https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/sdo.jpg'],
-        tags: ['sports',]
-    },
-    {
         placeId: 3,
         name: 'Jerusalem',
         loc: { lat: 31.768319, lng: 35.21370999999999 },
@@ -123,7 +115,7 @@ function addMarker(place) {
         position: place.loc,
         map: map,
         animation: google.maps.Animation.DROP,
-        title: place.name, 
+        title: place.name,
     });
     var lat = (place.placeId) ? place.loc.lat : newPlace.loc.lat
     var lng = (place.placeId) ? place.loc.lag : newPlace.loc.lng
@@ -132,12 +124,12 @@ function addMarker(place) {
     if (place.placeId) {
         markers.push(marker);
     } else {
-        if(currMarker) currMarker.setMap(null);
-        currMarker = marker;  
-        triggerMarker()  
+        if (currMarker) currMarker.setMap(null);
+        currMarker = marker;
+        // triggerMarker()
     }
     marker.addListener('click', () => {
-            var content = `
+        var content = `
                 <div id="content">
                 <div id="siteNotice"></div>
                 <h1 id="firstHeading" class="firstHeading">
@@ -145,6 +137,7 @@ function addMarker(place) {
                 </h1>
                 <div id="bodyContent">
                     <p>
+                    <p>Description: <b>${place.description}</b></p>
                         <span>lat: ${place.loc.lat}</span>
                         <span>lng: ${place.loc.lng}</span>
                     </p>
@@ -169,18 +162,19 @@ function addMarkers(placesDB) {
 
 function triggerMarker(idx) {
     var triggerMaker;
-    if (idx) {
+    if (idx === 0 || idx ) {       
+        console.log('markers[idx]',markers[0])
         triggerMaker = markers[idx]
     } else {
-        // triggerMaker = marker;
+         triggerMaker = marker;
     }
-    console.log('markers',markers)
-    console.log('marker len',markers[length-1])
-    console.log('marker[0]',markers[0])
+    console.log('markers', markers)
+    console.log('marker len', markers[length - 1])
+    console.log('marker[0]', markers[0])
 
     new google.maps.event.trigger(triggerMaker, 'click');
 }
-function removeMarker(){
+function removeMarker() {
     currMarker.setMap(null)
 }
 
@@ -198,7 +192,7 @@ function autocomplete() {
 }
 
 
-function deletePlace(placeId,makerIdx) {
+function deletePlace(placeId, makerIdx) {
     return storageService.load(PLACES_KEY)
         .then(placesDB => {
             var idx = placesDB.findIndex((place) => place.placeId === placeId);
@@ -208,10 +202,18 @@ function deletePlace(placeId,makerIdx) {
         })
 }
 
-function query() {
-    return getPlaces()
+function query(filterPrams = null) {
+   return getPlaces()
         .then((places) => {
-            console.log(places)
+            if (filterPrams) {
+                // filterPrams.byName.toLowerCase();
+                // filterPrams.byTag.toLowerCase();
+               return places.filter(place => {
+                //    place.name.toLowerCase();
+                //    place.tag.toLowerCase();
+                    return (place.name.includes(filterPrams.byName) || filterPrams.byName === '') 
+                });
+            }
             return places
         })
 }
