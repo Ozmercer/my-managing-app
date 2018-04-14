@@ -62,7 +62,7 @@
     flex: 1;
 }
 
-.column {
+.flex-column {
     flex-direction: column;
 }
 .row {

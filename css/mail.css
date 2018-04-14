@@ -1,6 +1,7 @@
 /* -----mail general----- */
 .mail {
     background-color: #d3d7ff;
+    color: #000325
 }
 
 .mail.unread > button {
@@ -39,13 +40,12 @@
     padding: 10px;
     text-align: center
 }
-.nav-head img {
-    height: 50px;
-}
+
 
 .mail .navbar {
     left: 0;
     flex-grow: 2;
+    flex-direction: column;
     height: 82vh;
     overflow-y: scroll;
     direction: rtl;
@@ -74,9 +74,6 @@
     padding: 10px;
     max-width: 800px;
     overflow: hidden
-}
-.mail hr {
-    margin: 0.5rem 0 1rem
 }
 
 .mail ul:last-child {
@@ -110,6 +107,7 @@ select {
     background-color: #b5bbff;
     padding: 10px;
     height: 100%;
+    overflow: scroll
 }
 
 .compose button.button {
@@ -133,7 +131,8 @@ select {
     width: 0%;
     padding: 10px;
     height: 80vh;
-    
+    color: #000325;
+    overflow: scroll
 }
 
 .prog {
@@ -169,7 +168,7 @@ select {
     display: initial;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 640px) {
     .resp-hide {
         display: initial
     }

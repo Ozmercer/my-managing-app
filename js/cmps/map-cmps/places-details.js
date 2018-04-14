@@ -5,9 +5,9 @@ import mapService from '../../service/map-service/map-service.js'
 export default {
     template: `
         <section class="places-details">
-            <h1>Name:{{place.name}}</h1>
-            <p>description: {{place.description}}</p>
-            <p> tag:
+            <h1><strong>Name:</strong> {{place.name}}</h1>
+            <p><strong>description:</strong> {{place.description}}</p>
+            <p><strong>tag:</strong>
                 <span v-for="tag in place.tags">
                     <span>{{tag}}</span>,
                 </span>
