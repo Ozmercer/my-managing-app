@@ -6,7 +6,7 @@ export default {
     template: `
         <section class="map-canvas">
             <map-search-form></map-search-form>
-            <div id="map" style="width: 99vw; height:100vh" ref="map"></div>  
+            <div id="map" style="width: 100%; height:80vh" ref="map"></div>  
         </section>
     `,
     data() {

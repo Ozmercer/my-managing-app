@@ -49,12 +49,12 @@ export default {
             this.newMail = mailService.generateNewMail(this.newMail.subject, this.newMail.content, Date.now());
             mailService.addMail(this.newMail);
             
-            // this.$emit('new-mail', this.newMail)
             this.newMail = {
                 subject: null,
                 content: null,
                 date: null
             }
+            this.close()
         },
         close() {
             this.$emit('close')
