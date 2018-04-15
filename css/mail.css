@@ -73,7 +73,8 @@
     border-bottom: none;
     padding: 10px;
     max-width: 800px;
-    overflow: hidden
+    overflow: hidden;
+    cursor: pointer;
 }
 
 .mail ul:last-child {
