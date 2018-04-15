@@ -9,7 +9,7 @@ export default {
     <section class="mail flex no-wrap container1">
         <section class="navbar flex column">
             <div class="nav-head">
-                <img src="../../../img/mma-logo.png" alt="" class="logo-img">
+                <img src="./img/mma-logo.png" alt="logo" class="logo-img">
                 <hr>
                 <mail-filter :mails="mails" @filter="setFilter"></mail-filter>
                 <div class="label flex space-between">
@@ -63,7 +63,7 @@ export default {
                     <p>Due to technical difficulties, you can currently only recieve E-Mails 
                         from yourself
                     </p>
-                    <img src="../../img/construction.png" alt="Sorry" class="construction">
+                    <img src="./img/construction.png" alt="Sorry" class="construction">
                 </div>
             </div>
             <mail-compose v-if="compose" :subject="newSubject" @close="closeCompose"></mail-compose>
