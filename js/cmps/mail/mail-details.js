@@ -12,7 +12,7 @@ export default {
                 <h3 class="title is-4">Subject: {{mail.subject}}</h3>
                 <hr>
                 <h5 class="subtitle">Mail content:</h5>
-                <p>{{mail.content}}</p>
+                <pre>{{mail.content}}</pre>
             </div>
         </article>
         <button class="button is-rounded" @click="reply">Reply</button>
