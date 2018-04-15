@@ -5,7 +5,7 @@ export default {
     template: `
         <section class="place-preview flex align-center">
             <div class="place-head">
-                <img src="../../../img/mma-logo.png" alt="" class="logo-img">
+                <img src="./img/mma-logo.png" alt="" class="logo-img">
                 <hr>
             </div>
             <div class="pages">
