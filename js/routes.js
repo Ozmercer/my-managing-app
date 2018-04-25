@@ -3,6 +3,7 @@ import mail from "./pages/mail/mail.js";
 import map from "./pages/map/map.js";
 import placesDetails from "./cmps/map-cmps/places-details.js";
 import placesEdit from "./cmps/map-cmps/places-edit.js";
+import keep from "./pages/keep/keep.js";
 
 
 const routes = [
@@ -19,6 +20,7 @@ const routes = [
             {path: '/map/edit', component: placesEdit},
             {path: '/map/edit/:placeId', component: placesEdit}
         ]},
+    {path: '/keep', component: keep,},
 ]
 
 Vue.use(VueRouter);

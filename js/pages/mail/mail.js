@@ -3,6 +3,7 @@ import mailDetails from '../../cmps/mail/mail-details.js'
 import mailCompose from '../../cmps/mail/mail-compose.js'
 import mailFilter from '../../cmps/mail/mail.filter.js'
 import mailSort from '../../cmps/mail/mail.sort.js'
+import mailProgress from '../../cmps/mail/mail-progress.js'
 
 export default {
     template: `
@@ -53,10 +54,12 @@ export default {
                 <p></p>
                 <h2 class="subtitle">You have <b>{{totUnread}}</b> unread messages</h2>
                 <h2 class="subtitle">Out of a total of <b>{{mails.length}}</b> messages</h2>
-                <div class="prog">
-                    <p class="percent">{{unreadMails}}% unread</p>
-                    <progress class="progress is-success" :value="unreadMails" max="100"></progress>
-                </div>
+                <mail-progress>
+                    <div class="prog">
+                        <p class="percent">{{unreadMails}}% unread</p>
+                        <progress class="progress is-success" :value="unreadMails" max="100"></progress>
+                    </div>
+                </mail-progress>
                 <hr>
                 <div class="sorry">
                     <p><strong>SORRY!</strong></p>
@@ -188,7 +191,8 @@ export default {
         mailDetails,
         mailCompose,
         mailFilter,
-        mailSort
+        mailSort,
+        mailProgress
     },
 
 }

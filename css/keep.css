@@ -1,0 +1,69 @@
+.keep .note {
+    position: relative;
+    background-color: #e7e41d;
+    min-height: 180px;
+    min-width: 220px;
+    max-width: 400px;
+    height: fit-content;
+    margin: 10px;
+    padding: 10px;
+    border: 5px solid #0000002c
+}
+
+/* .keep .details .img {
+    height: auto;
+} */
+
+.keep nav{
+    flex-grow: 1;
+    width: 0;
+    height: 80vh;
+    background-color: #fdc9b6
+}
+.keep .details {
+    flex-grow: 3;
+    width: 0;
+    background-color: #ffddd1;
+    overflow: scroll
+}
+
+.edit-input {
+    background-color: transparent;
+    border: 1px dashed #00000036;
+    width: 130px;
+    font-size: 1em
+}
+
+.keep .btns {
+    /* position: absolute; */
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    /* display: block; */
+    bottom: 0;
+    right: 0;
+    margin: 10px
+}
+
+.keep pre {
+    background-color: transparent;
+    white-space: pre-wrap;
+    font-size: initial;
+    padding: 0;
+    font-family: BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.keep .note-img {
+    max-width: 300px;
+    height: auto;
+}
+
+.keep .invalid {
+    background-color: #313131;
+    color: #dadada;
+    width: 120px;
+    padding: 10px;
+}
+.keep .nav-head {
+    background-color: transparent
+}
