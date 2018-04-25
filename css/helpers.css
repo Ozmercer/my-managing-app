@@ -12,6 +12,10 @@
     padding: 0;
 }
 
+.block {
+    display: block
+}
+
 /* ---movers--- */
 .left {
     left: 0;

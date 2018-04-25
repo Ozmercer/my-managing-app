@@ -1,0 +1,13 @@
+.home .applications {
+    width: fit-content;
+    margin: 0 auto
+}
+
+.home {
+    padding: 20px;
+    text-align: center;
+}
+
+.home a {
+    color: inherit
+}

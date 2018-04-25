@@ -7,7 +7,7 @@ import keep from "./pages/keep/keep.js";
 
 
 const routes = [
-    {path: '/', component: mail},
+    {path: '/', component: home},
     {path: '/mail', component: mail,
         children: [
             {path: '/mail/details'},
